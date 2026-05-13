@@ -1613,3 +1613,278 @@ renderProductMatch();
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">EXTERNAL SOURCE ROUTER</div>
+
+  <h3>Dojj Detected Traffic Sources</h3>
+
+  <select
+    id="externalSource"
+    onchange="renderExternalSource()"
+    style="width:100%;padding:14px;border-radius:12px;background:#111827;color:white;"
+  >
+    <option value="office">Charlotte Office Interiors</option>
+    <option value="builder">Carolina Custom Builders</option>
+    <option value="studio">Queen City Creator Studio</option>
+    <option value="supplier">Regional Equipment Supplier</option>
+  </select>
+
+  <div id="externalSourceResult" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+const externalSources = {
+
+  office: {
+    sourceName: "Charlotte Office Interiors",
+    sourceUrl: "https://example.com/charlotte-office-interiors",
+    sourceContact: "info@example.com",
+    detectedViews: 284,
+    products: [
+      "Office furniture",
+      "Lobby layout design",
+      "Executive workspace planning"
+    ],
+    routeTo: "ThePlantManInc.com",
+    routeUrl: "https://theplantmaninc.com",
+    matchedOffer: [
+      "Lobby greenery",
+      "Executive office plants",
+      "Commercial plant installs"
+    ],
+    why: "Office interiors and commercial greenery work together because both improve presentation, comfort, customer trust, and workspace value."
+  },
+
+  builder: {
+    sourceName: "Carolina Custom Builders",
+    sourceUrl: "https://example.com/carolina-custom-builders",
+    sourceContact: "contact@example.com",
+    detectedViews: 197,
+    products: [
+      "Home remodeling",
+      "Patio upgrades",
+      "Exterior improvements"
+    ],
+    routeTo: "SupportRD.com",
+    routeUrl: "https://supportrd.com",
+    matchedOffer: [
+      "Architecture support",
+      "Business planning",
+      "Project coordination"
+    ],
+    why: "Builders connect with SupportRD because design, planning, and business infrastructure can support larger property improvement projects."
+  },
+
+  studio: {
+    sourceName: "Queen City Creator Studio",
+    sourceUrl: "https://example.com/queen-city-creator-studio",
+    sourceContact: "studio@example.com",
+    detectedViews: 421,
+    products: [
+      "Podcast rooms",
+      "Creator workspaces",
+      "Video production setups"
+    ],
+    routeTo: "DigitalHut.app",
+    routeUrl: "https://digitalhut.app",
+    matchedOffer: [
+      "AI marketplace",
+      "3D simulator",
+      "Creator studio product experience"
+    ],
+    why: "Creator studios connect with DigitalHut because DigitalHut is building AI marketplace and simulator environments for digital product presentation."
+  },
+
+  supplier: {
+    sourceName: "Regional Equipment Supplier",
+    sourceUrl: "https://example.com/regional-equipment-supplier",
+    sourceContact: "sales@example.com",
+    detectedViews: 166,
+    products: [
+      "Equipment sales",
+      "Warehouse inventory",
+      "Commercial supplies"
+    ],
+    routeTo: "LasersMarket.com",
+    routeUrl: "https://lasersmarket.com",
+    matchedOffer: [
+      "Equipment marketplace",
+      "Commodity movement",
+      "Sales routing"
+    ],
+    why: "Equipment suppliers connect with LasersMarket because both are focused on moving products, equipment, and commercial inventory efficiently."
+  }
+
+};
+
+function renderExternalSource() {
+
+  const key = document.getElementById("externalSource").value;
+  const item = externalSources[key];
+
+  document.getElementById("externalSourceResult").innerHTML = `
+
+    <div class="card">
+
+      <div class="tag">DETECTED SOURCE</div>
+
+      <h3>${item.sourceName}</h3>
+
+      <p><strong>Source Link:</strong><br>
+        <a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a>
+      </p>
+
+      <p><strong>Detected Views:</strong> ${item.detectedViews}</p>
+
+      <p><strong>Source Contact:</strong> ${item.sourceContact}</p>
+
+      <p><strong>Source Products / Services:</strong></p>
+      <ul>
+        ${item.products.map(p => `<li>${p}</li>`).join("")}
+      </ul>
+
+      <hr>
+
+      <p><strong>Suggested Route:</strong><br>
+        <a href="${item.routeUrl}" target="_blank">${item.routeTo}</a>
+      </p>
+
+      <p><strong>Matched Offers:</strong></p>
+      <ul>
+        ${item.matchedOffer.map(p => `<li>${p}</li>`).join("")}
+      </ul>
+
+      <p><strong>Why This Match Works:</strong></p>
+      <p>${item.why}</p>
+
+      <button
+        onclick="generateRelationshipPage('${key}')"
+        style="background:#22c55e;"
+      >
+        Generate Relationship Page
+      </button>
+
+      <div id="relationshipPagePreview" style="margin-top:20px;"></div>
+
+    </div>
+
+  `;
+
+}
+
+function generateRelationshipPage(key) {
+
+  const item = externalSources[key];
+
+  const blogPost = `
+
+    <div class="card">
+
+      <div class="tag">RELATIONSHIP PAGE DRAFT</div>
+
+      <h2>${item.sourceName} + ${item.routeTo}</h2>
+
+      <p>
+        Dojj detected traffic and business overlap between
+        <a href="${item.sourceUrl}" target="_blank">${item.sourceName}</a>
+        and
+        <a href="${item.routeUrl}" target="_blank">${item.routeTo}</a>.
+      </p>
+
+      <p>
+        This connection was identified from ${item.detectedViews}
+        detected views and matching business signals.
+      </p>
+
+      <h3>What ${item.sourceName} Offers</h3>
+
+      <ul>
+        ${item.products.map(p => `<li>${p}</li>`).join("")}
+      </ul>
+
+      <h3>What ${item.routeTo} Offers</h3>
+
+      <ul>
+        ${item.matchedOffer.map(p => `<li>${p}</li>`).join("")}
+      </ul>
+
+      <h3>Why This Relationship Makes Sense</h3>
+
+      <p>${item.why}</p>
+
+      <h3>Contacts</h3>
+
+      <p><strong>External Source:</strong> ${item.sourceContact}</p>
+
+      <p><strong>Dojj / General Coordination:</strong> 980-230-6202</p>
+
+      <p><strong>Email:</strong> zzzanthony123@gmail.com</p>
+
+      <p>
+        <strong>PlantMan direct contact only:</strong>
+        704-533-5163
+      </p>
+
+      <h3>Backlink Route</h3>
+
+      <p>
+        Source:
+        <a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a>
+      </p>
+
+      <p>
+        Routed Business:
+        <a href="${item.routeUrl}" target="_blank">${item.routeUrl}</a>
+      </p>
+
+      <button
+        onclick="approveGeneratedRelationship('${key}')"
+        style="background:#22c55e;"
+      >
+        Approve Relationship Draft
+      </button>
+
+    </div>
+
+  `;
+
+  document.getElementById("relationshipPagePreview").innerHTML = blogPost;
+
+}
+
+function approveGeneratedRelationship(key) {
+
+  const item = externalSources[key];
+
+  const history =
+    JSON.parse(localStorage.getItem("dojj_relationship_pages") || "[]");
+
+  history.unshift({
+    sourceName: item.sourceName,
+    sourceUrl: item.sourceUrl,
+    sourceContact: item.sourceContact,
+    routeTo: item.routeTo,
+    routeUrl: item.routeUrl,
+    detectedViews: item.detectedViews,
+    why: item.why,
+    time: new Date().toLocaleString(),
+    status: "Approved Draft"
+  });
+
+  localStorage.setItem(
+    "dojj_relationship_pages",
+    JSON.stringify(history.slice(0, 50))
+  );
+
+  alert("Relationship draft approved and saved.");
+
+}
+
+renderExternalSource();
+
+</script>
+
