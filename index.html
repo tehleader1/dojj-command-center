@@ -1334,3 +1334,137 @@ function generateOperationalPost() {
 
 </script>
 
+
+<script>
+
+function approveRoute(index) {
+
+  const route =
+    dojjRoutes[index];
+
+  const approved = {
+
+    source:
+      route.backlink,
+
+    opportunity:
+      route.type,
+
+    target:
+      route.route,
+
+    content: `
+Commercial opportunity routed through Dojj operational intelligence.
+
+Origin:
+${route.backlink}
+
+Connected business:
+${route.route}
+
+Recommendation:
+${route.recommendation}
+    `,
+
+    time:
+      new Date().toLocaleString(),
+
+    views:
+      Math.floor(
+        Math.random() * 1000
+      ) + 100
+
+  };
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "approved_routes"
+      ) || "[]"
+    );
+
+  history.unshift(approved);
+
+  localStorage.setItem(
+    "approved_routes",
+    JSON.stringify(history)
+  );
+
+  renderApprovedRoutes();
+
+}
+
+function renderApprovedRoutes() {
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "approved_routes"
+      ) || "[]"
+    );
+
+  const box =
+    document.getElementById(
+      "routeHistory"
+    );
+
+  if (history.length === 0) {
+
+    box.innerHTML =
+      "<p>No approved routes yet.</p>";
+
+    return;
+
+  }
+
+  box.innerHTML =
+    history.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">
+          APPROVED ROUTE ${index + 1}
+        </div>
+
+        <p>
+          <strong>Origin Source:</strong>
+        </p>
+
+        <a
+          href="${item.source}"
+          target="_blank"
+        >
+          ${item.source}
+        </a>
+
+        <p style="margin-top:12px;">
+          <strong>Connected Business:</strong>
+          ${item.target}
+        </p>
+
+        <p>
+          <strong>Views:</strong>
+          ${item.views}
+        </p>
+
+        <p>
+          <strong>Created:</strong>
+          ${item.time}
+        </p>
+
+        <div class="card">
+
+          ${item.content}
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+renderApprovedRoutes();
+
+</script>
+
