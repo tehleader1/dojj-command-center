@@ -1010,3 +1010,157 @@ renderApprovalQueue();
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">ROUTE HISTORY</div>
+
+  <h3>Dojj Backlink Intelligence</h3>
+
+  <div id="routeHistory"></div>
+
+</div>
+
+<script>
+
+function saveApprovedRoute(route) {
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "dojj_route_history"
+      ) || "[]"
+    );
+
+  history.unshift(route);
+
+  localStorage.setItem(
+    "dojj_route_history",
+    JSON.stringify(history.slice(0, 50))
+  );
+
+}
+
+function approveRoute(index) {
+
+  const route =
+    dojjRoutes[index];
+
+  const approvedRoute = {
+
+    source:
+      "Charlotte Scanner",
+
+    opportunity:
+      route.type,
+
+    target:
+      route.route,
+
+    backlink:
+      route.backlink,
+
+    confidence:
+      route.confidence,
+
+    time:
+      new Date().toLocaleString(),
+
+    status:
+      "Approved"
+
+  };
+
+  saveApprovedRoute(
+    approvedRoute
+  );
+
+  renderRouteHistory();
+
+  alert(
+    "Approved route to "
+    + route.route
+  );
+
+}
+
+function renderRouteHistory() {
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "dojj_route_history"
+      ) || "[]"
+    );
+
+  const container =
+    document.getElementById(
+      "routeHistory"
+    );
+
+  if (history.length === 0) {
+
+    container.innerHTML =
+      "<p>No approved routes yet.</p>";
+
+    return;
+
+  }
+
+  container.innerHTML =
+    history.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">
+          LINK ${index + 1}
+        </div>
+
+        <p>
+          <strong>Source:</strong>
+          ${item.source}
+        </p>
+
+        <p>
+          <strong>Opportunity:</strong>
+          ${item.opportunity}
+        </p>
+
+        <p>
+          <strong>Target:</strong>
+          ${item.target}
+        </p>
+
+        <p>
+          <strong>Confidence:</strong>
+          ${item.confidence}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          ${item.status}
+        </p>
+
+        <p>
+          <strong>Time:</strong>
+          ${item.time}
+        </p>
+
+        <a
+          href="${item.backlink}"
+          target="_blank"
+          class="button"
+        >
+          Open Backlink
+        </a>
+
+      </div>
+
+    `).join("");
+
+}
+
+renderRouteHistory();
+
+</script>
+
