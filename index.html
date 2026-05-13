@@ -1888,3 +1888,306 @@ renderExternalSource();
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">TRENDING DISCOVERY ENGINE</div>
+
+  <h3>Dojj Autonomous Discovery</h3>
+
+  <button onclick="discoverSources()">
+    Discover Trending Sources
+  </button>
+
+  <div id="discoveryResults" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+const trendingDiscovery = [
+
+  {
+
+    company:
+      "Charlotte Workspace Design",
+
+    url:
+      "https://example.com/workspace-design",
+
+    traffic:
+      "+2400 monthly growth",
+
+    category:
+      "Commercial Workspace",
+
+    overlap:
+      "Executive office greenery and commercial presentation compatibility.",
+
+    route:
+      "ThePlantManInc.com",
+
+    routeUrl:
+      "https://theplantmaninc.com"
+
+  },
+
+  {
+
+    company:
+      "Creator Studio Network",
+
+    url:
+      "https://example.com/creator-network",
+
+    traffic:
+      "+5100 monthly growth",
+
+    category:
+      "Creator Economy",
+
+    overlap:
+      "AI workspace simulator and creator productivity overlap.",
+
+    route:
+      "DigitalHut.app",
+
+    routeUrl:
+      "https://digitalhut.app"
+
+  },
+
+  {
+
+    company:
+      "Regional Architecture Group",
+
+    url:
+      "https://example.com/architecture-group",
+
+    traffic:
+      "+3200 monthly growth",
+
+    category:
+      "Architecture / Planning",
+
+    overlap:
+      "Commercial business planning and infrastructure overlap.",
+
+    route:
+      "SupportRD.com",
+
+    routeUrl:
+      "https://supportrd.com"
+
+  }
+
+];
+
+function discoverSources() {
+
+  const container =
+    document.getElementById(
+      "discoveryResults"
+    );
+
+  container.innerHTML =
+    trendingDiscovery.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">
+          TRENDING SOURCE ${index + 1}
+        </div>
+
+        <h3>
+          ${item.company}
+        </h3>
+
+        <p>
+          <strong>Detected Traffic Growth:</strong>
+          ${item.traffic}
+        </p>
+
+        <p>
+          <strong>Category:</strong>
+          ${item.category}
+        </p>
+
+        <p>
+          <strong>Source URL:</strong>
+          <br>
+          <a href="${item.url}" target="_blank">
+            ${item.url}
+          </a>
+        </p>
+
+        <p>
+          <strong>Suggested Route:</strong>
+          <br>
+          <a href="${item.routeUrl}" target="_blank">
+            ${item.route}
+          </a>
+        </p>
+
+        <p>
+          <strong>Operational Overlap:</strong>
+          ${item.overlap}
+        </p>
+
+        <button
+          onclick="generateDiscoveryRelationship(${index})"
+          style="background:#22c55e;"
+        >
+          Generate Relationship Draft
+        </button>
+
+      </div>
+
+    `).join("");
+
+}
+
+function generateDiscoveryRelationship(index) {
+
+  const item =
+    trendingDiscovery[index];
+
+  const html = `
+
+    <div class="card">
+
+      <div class="tag">
+        GENERATED DISCOVERY RELATIONSHIP
+      </div>
+
+      <h2>
+        ${item.company}
+        +
+        ${item.route}
+      </h2>
+
+      <p>
+
+        Dojj identified rapid visibility growth
+        from ${item.company}.
+
+      </p>
+
+      <p>
+
+        Traffic increase:
+        ${item.traffic}
+
+      </p>
+
+      <p>
+
+        Operational overlap:
+        ${item.overlap}
+
+      </p>
+
+      <p>
+
+        <strong>External Source:</strong>
+        <br>
+
+        <a href="${item.url}" target="_blank">
+          ${item.url}
+        </a>
+
+      </p>
+
+      <p>
+
+        <strong>Internal Route:</strong>
+        <br>
+
+        <a href="${item.routeUrl}" target="_blank">
+          ${item.routeUrl}
+        </a>
+
+      </p>
+
+      <p>
+
+        The relationship creates potential
+        cross-visibility between:
+        products,
+        services,
+        operational audiences,
+        and business presentation systems.
+
+      </p>
+
+      <button
+        onclick="approveDiscoveryRelationship(${index})"
+        style="background:#22c55e;"
+      >
+        Approve Discovery Relationship
+      </button>
+
+    </div>
+
+  `;
+
+  document.getElementById(
+    "relationshipPagePreview"
+  ).innerHTML = html;
+
+}
+
+function approveDiscoveryRelationship(index) {
+
+  const item =
+    trendingDiscovery[index];
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "autonomous_discovery"
+      ) || "[]"
+    );
+
+  history.unshift({
+
+    company:
+      item.company,
+
+    url:
+      item.url,
+
+    route:
+      item.route,
+
+    routeUrl:
+      item.routeUrl,
+
+    traffic:
+      item.traffic,
+
+    overlap:
+      item.overlap,
+
+    approved:
+      true,
+
+    time:
+      new Date().toLocaleString()
+
+  });
+
+  localStorage.setItem(
+    "autonomous_discovery",
+    JSON.stringify(history)
+  );
+
+  alert(
+    "Discovery relationship approved."
+  );
+
+}
+
+</script>
+
