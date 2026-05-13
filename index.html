@@ -2191,3 +2191,240 @@ function approveDiscoveryRelationship(index) {
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">LIVE RELATIONSHIP BUILDER</div>
+
+  <h3>Build From Real Discovered Sources</h3>
+
+  <button onclick="loadLiveRelationshipSources()">
+    Load Real Sources
+  </button>
+
+  <div id="liveRelationshipSources" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+let liveSources = [];
+
+async function loadLiveRelationshipSources() {
+
+  const box =
+    document.getElementById("liveRelationshipSources");
+
+  box.innerHTML =
+    "<p>Loading real external sources...</p>";
+
+  const response =
+    await fetch("/api/discover");
+
+  const data =
+    await response.json();
+
+  liveSources =
+    data.results.filter(item => item.sourceUrl);
+
+  box.innerHTML =
+    liveSources.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">REAL SOURCE ${index + 1}</div>
+
+        <h3>${item.title || item.source}</h3>
+
+        <p><strong>External Source:</strong><br>
+          <a href="${item.sourceUrl}" target="_blank">
+            ${item.sourceUrl}
+          </a>
+        </p>
+
+        <p><strong>Description:</strong>
+          ${item.description || "No description found"}
+        </p>
+
+        <p><strong>Suggested Route:</strong><br>
+          <a href="${item.suggestedRouteUrl}" target="_blank">
+            ${item.suggestedRoute}
+          </a>
+        </p>
+
+        <p><strong>Confidence:</strong>
+          ${item.confidence || "N/A"}%
+        </p>
+
+        <button
+          onclick="generateLiveRelationshipDraft(${index})"
+          style="background:#22c55e;"
+        >
+          Generate Blog + Backlink Draft
+        </button>
+
+      </div>
+
+    `).join("");
+
+}
+
+function generateLiveRelationshipDraft(index) {
+
+  const item =
+    liveSources[index];
+
+  const draft = `
+
+    <div class="card">
+
+      <div class="tag">REAL RELATIONSHIP DRAFT</div>
+
+      <h2>
+        ${item.title || item.source}
+        +
+        ${item.suggestedRoute}
+      </h2>
+
+      <p>
+        Dojj discovered an external source at:
+      </p>
+
+      <p>
+        <a href="${item.sourceUrl}" target="_blank">
+          ${item.sourceUrl}
+        </a>
+      </p>
+
+      <p>
+        The page metadata suggests:
+        ${item.description || "No description available."}
+      </p>
+
+      <p>
+        Based on the detected category and business language,
+        Dojj recommends routing this opportunity to:
+      </p>
+
+      <p>
+        <a href="${item.suggestedRouteUrl}" target="_blank">
+          ${item.suggestedRouteUrl}
+        </a>
+      </p>
+
+      <h3>Why This Connection Works</h3>
+
+      <p>
+        This source shows business language related to:
+        ${item.category || "commercial activity"}.
+        Dojj matched that signal against the connected business
+        because the service category, audience, and operational
+        intent appear compatible.
+      </p>
+
+      <h3>Contact / Coordination</h3>
+
+      <p>
+        External contact:
+        Not extracted yet.
+      </p>
+
+      <p>
+        Dojj / general coordination:
+        980-230-6202
+      </p>
+
+      <p>
+        Email:
+        zzzanthony123@gmail.com
+      </p>
+
+      <p>
+        PlantMan direct only:
+        704-533-5163
+      </p>
+
+      <h3>Backlink Route</h3>
+
+      <p>
+        Source:
+        <a href="${item.sourceUrl}" target="_blank">
+          ${item.sourceUrl}
+        </a>
+      </p>
+
+      <p>
+        Routed business:
+        <a href="${item.suggestedRouteUrl}" target="_blank">
+          ${item.suggestedRouteUrl}
+        </a>
+      </p>
+
+      <button
+        onclick="approveLiveRelationship(${index})"
+        style="background:#22c55e;"
+      >
+        Approve Real Relationship Draft
+      </button>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("liveRelationshipSources")
+    .insertAdjacentHTML("beforeend", draft);
+
+}
+
+function approveLiveRelationship(index) {
+
+  const item =
+    liveSources[index];
+
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "approved_live_relationships"
+      ) || "[]"
+    );
+
+  history.unshift({
+
+    source:
+      item.source || item.title,
+
+    sourceUrl:
+      item.sourceUrl,
+
+    route:
+      item.suggestedRoute,
+
+    routeUrl:
+      item.suggestedRouteUrl,
+
+    description:
+      item.description,
+
+    confidence:
+      item.confidence,
+
+    approvedAt:
+      new Date().toLocaleString(),
+
+    status:
+      "Approved real-source draft"
+
+  });
+
+  localStorage.setItem(
+    "approved_live_relationships",
+    JSON.stringify(history.slice(0, 50))
+  );
+
+  alert("Real source relationship approved and saved.");
+
+}
+
+</script>
+
