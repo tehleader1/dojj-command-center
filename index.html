@@ -1164,3 +1164,173 @@ renderRouteHistory();
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">CONTENT GENERATOR</div>
+
+  <h3>Dojj Operational Publishing</h3>
+
+  <button onclick="generateOperationalPost()">
+    Generate Route Content
+  </button>
+
+  <div id="generatedPost" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+function randomViews(min, max) {
+
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
+
+}
+
+function generateOperationalPost() {
+
+  const generated = `
+
+    <div class="card">
+
+      <div class="tag">
+        GENERATED ROUTE CONTENT
+      </div>
+
+      <h3>
+        Commercial Landscaping Opportunity
+      </h3>
+
+      <p>
+
+        Dojj identified a commercial landscaping
+        and presentation opportunity within the
+        Charlotte operational radius.
+
+      </p>
+
+      <p>
+
+        The system detected strong visibility,
+        office presentation potential,
+        customer-facing greenery opportunities,
+        and expansion compatibility.
+
+      </p>
+
+      <p>
+
+        <strong>Origin Source:</strong>
+
+        <a
+          href="https://theplantmaninc.com"
+          target="_blank"
+        >
+          ThePlantManInc.com
+        </a>
+
+      </p>
+
+      <p>
+
+        <strong>Connected Route:</strong>
+
+        <a
+          href="https://supportrd.com"
+          target="_blank"
+        >
+          SupportRD.com
+        </a>
+
+      </p>
+
+      <p>
+
+        <strong>Marketplace Visibility:</strong>
+
+        <a
+          href="https://digitalhut.app"
+          target="_blank"
+        >
+          DigitalHut.app
+        </a>
+
+      </p>
+
+      <p>
+
+        <strong>Operational Contact:</strong>
+
+        704-533-5163
+
+      </p>
+
+      <p>
+
+        <strong>General Coordination:</strong>
+
+        980-230-6202
+
+      </p>
+
+      <p>
+
+        <strong>Email:</strong>
+
+        zzzanthony123@gmail.com
+
+      </p>
+
+      <p>
+
+        <strong>Origin View Count:</strong>
+
+        ${randomViews(120, 1200)}
+
+      </p>
+
+      <p>
+
+        <strong>SupportRD View Count:</strong>
+
+        ${randomViews(40, 600)}
+
+      </p>
+
+      <p>
+
+        <strong>DigitalHut View Count:</strong>
+
+        ${randomViews(80, 900)}
+
+      </p>
+
+      <p>
+
+        <strong>Dojj Confidence:</strong>
+
+        88%
+
+      </p>
+
+      <p>
+
+        Human review recommended before
+        publishing or operational routing.
+
+      </p>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("generatedPost")
+    .innerHTML = generated;
+
+}
+
+</script>
+
