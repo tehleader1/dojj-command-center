@@ -1,2430 +1,270 @@
-
 <!DOCTYPE html>
 <html>
-
 <head>
-
   <title>Dojj Command Center</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <style>
-
-    body {
-
-      margin: 0;
-
-      background:
-        linear-gradient(
-          180deg,
-          #020617,
-          #0f172a
-        );
-
-      color: white;
-
-      font-family: Arial, sans-serif;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      min-height: 100vh;
-
-    }
-
-    .panel {
-
-      width: 90%;
-      max-width: 420px;
-
-      background:
-        rgba(30,41,59,0.92);
-
-      padding: 30px;
-
-      border-radius: 24px;
-
-      border:
-        1px solid rgba(255,255,255,0.08);
-
-      backdrop-filter: blur(12px);
-
-      box-shadow:
-        0 0 60px rgba(56,189,248,0.12);
-
-    }
-
-    h1 {
-
-      margin-top: 0;
-
-    }
-
-    input {
-
-      width: 100%;
-
-      padding: 14px;
-
-      margin-top: 16px;
-
-      border-radius: 12px;
-
-      border: none;
-
-      background: #111827;
-
-      color: white;
-
-      font-size: 18px;
-
-      box-sizing: border-box;
-
-    }
-
-    button {
-
-      width: 100%;
-
-      padding: 14px;
-
-      margin-top: 16px;
-
-      border-radius: 12px;
-
-      border: none;
-
-      background: #38bdf8;
-
-      color: black;
-
-      font-size: 18px;
-
-      font-weight: bold;
-
-    }
-
-    .hidden {
-
-      display: none;
-
-    }
-
-    .card {
-
-      background: #111827;
-
-      padding: 18px;
-
-      border-radius: 16px;
-
-      margin-top: 16px;
-
-    }
-
-    .tag {
-
-      color: #38bdf8;
-
-      font-weight: bold;
-
-      margin-bottom: 10px;
-
-    }
-
+    body { margin:0; background:#020617; color:white; font-family:Arial,sans-serif; }
+    header { padding:24px; background:#030712; position:sticky; top:0; z-index:5; }
+    h1,h2,h3 { margin-top:0; }
+    .wrap { padding:20px; max-width:1100px; margin:auto; }
+    .gate,.dashboard { padding:24px; }
+    .card { background:#111827; border:1px solid #334155; border-radius:18px; padding:20px; margin:16px 0; }
+    .tag { color:#38bdf8; font-weight:bold; margin-bottom:10px; text-transform:uppercase; }
+    input,select,button { width:100%; padding:14px; border-radius:12px; border:0; margin:8px 0; box-sizing:border-box; }
+    input,select { background:#020617; color:white; border:1px solid #334155; }
+    button { background:#38bdf8; color:black; font-weight:bold; }
+    button.green { background:#22c55e; }
+    a { color:#38bdf8; word-break:break-word; }
+    .hidden { display:none; }
+    .tabs { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:16px 0; }
+    .tab { display:none; }
+    .tab.active { display:block; }
+    @media(min-width:700px){ .tabs{ grid-template-columns:repeat(5,1fr); } }
   </style>
-
 </head>
-
 <body>
 
-<div class="panel" id="gate">
+<header>
+  <h1>🚀 Dojj Command Center</h1>
+  <p>Operational discovery, routing, approval, and backlink intelligence.</p>
+</header>
 
-  <h1>🔐 Dojj Command Center</h1>
+<div class="wrap">
 
-  <p>
-    Secure operational access required.
-  </p>
-
-  <input
-    id="code"
-    maxlength="6"
-    placeholder="Enter 6-digit code"
-  >
-
-  <button onclick="unlock()">
-    Access System
-  </button>
-
-  <p id="error" style="color:#f87171;"></p>
-
-</div>
-
-<div class="panel hidden" id="dashboard">
-
-  <h1>🚀 Dojj Operations</h1>
-
-  <div class="card">
-
-    <div class="tag">CONNECTED BUSINESSES</div>
-
-    <p>SupportRD.com</p>
-    <p>DigitalHut.app</p>
-    <p>ThePlantManInc.com</p>
-    <p>LasersMarket.com</p>
-
+  <div id="gate" class="card">
+    <div class="tag">Secure Access</div>
+    <h2>Enter 6-digit code</h2>
+    <input id="code" maxlength="6" placeholder="Security code">
+    <button onclick="unlock()">Access System</button>
+    <p id="error" style="color:#f87171;"></p>
   </div>
 
-  <div class="card">
+  <div id="dashboard" class="hidden">
 
-    <div class="tag">RADIUS SCANNER</div>
+    <div class="tabs">
+      <button onclick="showTab('scanner')">Scanner</button>
+      <button onclick="showTab('discovery')">Discovery</button>
+      <button onclick="showTab('relationships')">Relationships</button>
+      <button onclick="showTab('projections')">Projections</button>
+      <button onclick="showTab('history')">History</button>
+    </div>
 
-    <p>
-      Charlotte 100-mile scanner active.
-    </p>
+    <section id="scanner" class="tab active">
+      <div class="card">
+        <div class="tag">Scanner</div>
+        <h2>Charlotte 100-Mile Operational Scanner</h2>
+        <p><strong>Commercial Density:</strong> 72%</p>
+        <p><strong>Residential Opportunity:</strong> 64%</p>
+        <p><strong>Lead Confidence:</strong> 81%</p>
+        <p><strong>Recommended Focus:</strong> Commercial → Residential Trickle</p>
+      </div>
+    </section>
 
-  </div>
+    <section id="discovery" class="tab">
+      <div class="card">
+        <div class="tag">Live Discovery</div>
+        <h2>Real External Source Discovery</h2>
+        <button onclick="runDiscovery()">Run Live Discovery</button>
+        <div id="discoveryResults"></div>
+      </div>
+    </section>
 
-  <div class="card">
+    <section id="relationships" class="tab">
+      <div class="card">
+        <div class="tag">Relationship Builder</div>
+        <h2>Approved Relationship Draft</h2>
+        <div id="relationshipDraft">
+          <p>Run discovery first, then generate a relationship draft.</p>
+        </div>
+      </div>
+    </section>
 
-    <div class="tag">RECRUITING</div>
+    <section id="projections" class="tab">
+      <div class="card">
+        <div class="tag">Projection Engine</div>
+        <h2>Dojj Operational Forecast</h2>
+        <p><strong>Incoming Replies:</strong> <span id="incoming">124</span></p>
+        <p><strong>Qualified Leads:</strong> <span id="qualified">46</span></p>
+        <p><strong>Commercial Opportunities:</strong> <span id="commercial">18</span></p>
+        <p><strong>Residential Opportunities:</strong> <span id="residential">28</span></p>
+        <p><strong>Staffing Pressure:</strong> <span id="pressure">Moderate</span></p>
+        <button onclick="refreshProjection()">Refresh Projections</button>
+      </div>
+    </section>
 
-    <p>
-      Engineer + architecture quality review layer active.
-    </p>
+    <section id="history" class="tab">
+      <div class="card">
+        <div class="tag">History</div>
+        <h2>Approved Relationship History</h2>
+        <button onclick="renderHistory()">Refresh History</button>
+        <button onclick="clearHistory()">Clear History</button>
+        <div id="historyBox"></div>
+      </div>
+    </section>
 
   </div>
 
 </div>
 
 <script>
+let liveSources = [];
 
 function unlock() {
-
-  const code =
-    document.getElementById("code").value;
-
+  const code = document.getElementById("code").value;
   if (code === "123456") {
-
-    localStorage.setItem(
-      "dojj_access",
-      "true"
-    );
-
-    document
-      .getElementById("gate")
-      .classList.add("hidden");
-
-    document
-      .getElementById("dashboard")
-      .classList.remove("hidden");
-
+    localStorage.setItem("dojj_access", "true");
+    document.getElementById("gate").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
   } else {
+    document.getElementById("error").innerText = "Invalid code";
+  }
+}
 
-    document
-      .getElementById("error")
-      .innerText =
-      "Invalid security code";
+if (localStorage.getItem("dojj_access") === "true") {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+}
 
+function showTab(id) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+async function runDiscovery() {
+  const box = document.getElementById("discoveryResults");
+  box.innerHTML = "<p>Loading real external sources...</p>";
+
+  try {
+    const res = await fetch("/api/discover");
+    const data = await res.json();
+
+    liveSources = data.results || [];
+
+    if (!liveSources.length) {
+      box.innerHTML = "<p>No discovery results returned.</p>";
+      return;
+    }
+
+    box.innerHTML = liveSources.map((item, index) => `
+      <div class="card">
+        <div class="tag">Real Source ${index + 1}</div>
+        <h3>${item.title || item.source}</h3>
+        <p><strong>Source Link:</strong><br><a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a></p>
+        <p><strong>Description:</strong> ${item.description || item.error || "No description found"}</p>
+        <p><strong>Category:</strong> ${item.category || "Unknown"}</p>
+        <p><strong>Suggested Route:</strong><br><a href="${item.suggestedRouteUrl}" target="_blank">${item.suggestedRoute}</a></p>
+        <p><strong>Confidence:</strong> ${item.confidence || "N/A"}%</p>
+        <button class="green" onclick="generateDraft(${index})">Generate Blog + Backlink Draft</button>
+      </div>
+    `).join("");
+
+  } catch (err) {
+    box.innerHTML = "<p style='color:#f87171;'>Discovery API failed. Check Cloudflare Functions deployment.</p>";
+  }
+}
+
+function generateDraft(index) {
+  const item = liveSources[index];
+  showTab("relationships");
+
+  document.getElementById("relationshipDraft").innerHTML = `
+    <div class="card">
+      <div class="tag">Generated Relationship Page Draft</div>
+      <h2>${item.title || item.source} + ${item.suggestedRoute}</h2>
+
+      <p>Dojj detected a possible relationship between:</p>
+
+      <p><strong>External Source:</strong><br>
+      <a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a></p>
+
+      <p><strong>Internal Route:</strong><br>
+      <a href="${item.suggestedRouteUrl}" target="_blank">${item.suggestedRouteUrl}</a></p>
+
+      <h3>What the external source appears to offer</h3>
+      <p>${item.description || "No metadata description was found yet."}</p>
+
+      <h3>Why this connection may work</h3>
+      <p>
+        Dojj matched this source because its category signal
+        (${item.category || "business activity"})
+        appears compatible with ${item.suggestedRoute}.
+        This relationship can create a clean operational backlink route,
+        referral opportunity, and blog-style connection page after human approval.
+      </p>
+
+      <h3>Contacts</h3>
+      <p><strong>External contact:</strong> Not extracted yet</p>
+      <p><strong>Dojj / General:</strong> 980-230-6202</p>
+      <p><strong>Email:</strong> zzzanthony123@gmail.com</p>
+      <p><strong>PlantMan direct only:</strong> 704-533-5163</p>
+
+      <button class="green" onclick="approveDraft(${index})">Approve + Save Relationship</button>
+    </div>
+  `;
+}
+
+function approveDraft(index) {
+  const item = liveSources[index];
+  const saved = JSON.parse(localStorage.getItem("approved_relationships") || "[]");
+
+  saved.unshift({
+    title: item.title || item.source,
+    sourceUrl: item.sourceUrl,
+    route: item.suggestedRoute,
+    routeUrl: item.suggestedRouteUrl,
+    description: item.description || "",
+    category: item.category || "",
+    confidence: item.confidence || "N/A",
+    approvedAt: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("approved_relationships", JSON.stringify(saved.slice(0,50)));
+  alert("Relationship approved and saved.");
+  renderHistory();
+}
+
+function renderHistory() {
+  const saved = JSON.parse(localStorage.getItem("approved_relationships") || "[]");
+  const box = document.getElementById("historyBox");
+
+  if (!saved.length) {
+    box.innerHTML = "<p>No approved relationships yet.</p>";
+    return;
   }
 
+  box.innerHTML = saved.map((item, index) => `
+    <div class="card">
+      <div class="tag">Approved ${index + 1}</div>
+      <h3>${item.title}</h3>
+      <p><strong>Source:</strong><br><a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a></p>
+      <p><strong>Route:</strong><br><a href="${item.routeUrl}" target="_blank">${item.route}</a></p>
+      <p><strong>Confidence:</strong> ${item.confidence}%</p>
+      <p><strong>Approved:</strong> ${item.approvedAt}</p>
+    </div>
+  `).join("");
 }
 
-if (
-  localStorage.getItem("dojj_access")
-  === "true"
-) {
-
-  document
-    .getElementById("gate")
-    .classList.add("hidden");
-
-  document
-    .getElementById("dashboard")
-    .classList.remove("hidden");
-
+function clearHistory() {
+  localStorage.removeItem("approved_relationships");
+  renderHistory();
 }
 
+function refreshProjection() {
+  const incoming = Math.floor(Math.random() * 100) + 80;
+  const qualified = Math.floor(incoming * 0.38);
+  const commercial = Math.floor(qualified * 0.42);
+  const residential = qualified - commercial;
+
+  document.getElementById("incoming").innerText = incoming;
+  document.getElementById("qualified").innerText = qualified;
+  document.getElementById("commercial").innerText = commercial;
+  document.getElementById("residential").innerText = residential;
+  document.getElementById("pressure").innerText = qualified > 60 ? "High" : qualified > 40 ? "Moderate" : "Low";
+}
+
+renderHistory();
 </script>
 
 </body>
-
 </html>
-
-
-<div class="nav" style="margin-top:20px;">
-
-  <button onclick="showTab('scanner')">
-    Scanner
-  </button>
-
-  <button onclick="showTab('routing')">
-    Routing
-  </button>
-
-  <button onclick="showTab('projections')">
-    Projections
-  </button>
-
-</div>
-
-<div id="scanner" class="tab">
-
-  <h2>Charlotte 100-Mile Scanner</h2>
-
-  <div class="card">
-
-    <div class="tag">SCANNER ACTIVE</div>
-
-    <p>
-      Commercial + residential opportunity
-      scanner online.
-    </p>
-
-  </div>
-
-</div>
-
-<div
-  id="routing"
-  class="tab"
-  style="display:none;"
->
-
-  <h2>Sales Routing</h2>
-
-  <div class="card">
-
-    <div class="tag">ROUTING</div>
-
-    <p>
-      Call-center and lead routing system active.
-    </p>
-
-  </div>
-
-</div>
-
-<div
-  id="projections"
-  class="tab"
-  style="display:none;"
->
-
-  <h2>Volume Projections</h2>
-
-  <div class="card">
-
-    <div class="tag">PROJECTIONS</div>
-
-    <p>
-      Sales volume and staffing projections active.
-    </p>
-
-  </div>
-
-</div>
-
-<script>
-
-function showTab(tabId) {
-
-  document
-    .querySelectorAll(".tab")
-    .forEach((tab) => {
-
-      tab.style.display = "none";
-
-    });
-
-  document
-    .getElementById(tabId)
-    .style.display = "block";
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">CHARLOTTE SCANNER</div>
-
-  <h3>100-Mile Operational Radius</h3>
-
-  <p>
-    Commercial Density:
-    <strong>72%</strong>
-  </p>
-
-  <p>
-    Residential Opportunity:
-    <strong>64%</strong>
-  </p>
-
-  <p>
-    Lead Confidence:
-    <strong>81%</strong>
-  </p>
-
-  <p>
-    Staffing Pressure:
-    <strong>Moderate</strong>
-  </p>
-
-  <p>
-    Route Saturation:
-    <strong>Balanced</strong>
-  </p>
-
-  <p>
-    Recommended Focus:
-    <strong>
-      Commercial → Residential Trickle
-    </strong>
-  </p>
-
-</div>
-
-<div class="card">
-
-  <div class="tag">WORKFORCE LOAD</div>
-
-  <p>
-    Work-from-home sales operators:
-    <strong>3 active</strong>
-  </p>
-
-  <p>
-    Commission projection lanes:
-    <strong>3 active</strong>
-  </p>
-
-  <p>
-    Current expansion pressure:
-    <strong>Low</strong>
-  </p>
-
-  <p>
-    Suggested scaling mode:
-    <strong>
-      Maintain discipline and efficiency
-    </strong>
-  </p>
-
-</div>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">VIDEO SCANNER</div>
-
-  <h3>Dojj Real-World Asset Scanner</h3>
-
-  <p>
-    Upload a job site, product, office, landscape, equipment, or sales environment for review.
-  </p>
-
-  <input
-    type="file"
-    id="scannerUpload"
-    accept="image/*,video/*"
-  >
-
-  <button onclick="runScanner()">
-    Run Dojj Scan
-  </button>
-
-  <div id="scanResult" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-function runScanner() {
-
-  const file =
-    document.getElementById("scannerUpload").files[0];
-
-  const result =
-    document.getElementById("scanResult");
-
-  if (!file) {
-    result.innerHTML =
-      "<p style='color:#f87171;'>Upload a photo or video first.</p>";
-    return;
-  }
-
-  result.innerHTML = `
-    <div class="card">
-
-      <div class="tag">SCAN COMPLETE</div>
-
-      <p><strong>File:</strong> ${file.name}</p>
-
-      <p><strong>Visual Quality:</strong> 82%</p>
-
-      <p><strong>Commercial Opportunity:</strong> 76%</p>
-
-      <p><strong>Safety Risk:</strong> Low</p>
-
-      <p><strong>Promotion Potential:</strong> Medium-High</p>
-
-      <p><strong>Dojj Recommendation:</strong>
-        Human review recommended before action.
-        Improve lighting, reduce clutter, check presentation,
-        and route strong opportunities to the correct business lane.
-      </p>
-
-    </div>
-  `;
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">BUSINESS LANE</div>
-
-  <h3>Select Scanner Context</h3>
-
-  <select
-    id="businessLane"
-    style="
-      width:100%;
-      padding:14px;
-      border-radius:12px;
-      background:#111827;
-      color:white;
-      margin-top:12px;
-    "
-  >
-
-    <option value="plant">
-      PlantEscapes
-    </option>
-
-    <option value="digitalhut">
-      DigitalHut
-    </option>
-
-    <option value="supportrd">
-      SupportRD
-    </option>
-
-    <option value="lasers">
-      LasersMarket
-    </option>
-
-  </select>
-
-</div>
-
-<script>
-
-function runScanner() {
-
-  const file =
-    document.getElementById("scannerUpload").files[0];
-
-  const lane =
-    document.getElementById("businessLane").value;
-
-  const result =
-    document.getElementById("scanResult");
-
-  if (!file) {
-
-    result.innerHTML =
-      "<p style='color:#f87171;'>Upload a file first.</p>";
-
-    return;
-
-  }
-
-  let analysis = "";
-
-  if (lane === "plant") {
-
-    analysis = `
-      <p><strong>Landscape Potential:</strong> High</p>
-      <p><strong>Install Complexity:</strong> Medium</p>
-      <p><strong>Commercial Property Score:</strong> 84%</p>
-      <p><strong>Plant Visibility:</strong> Strong</p>
-    `;
-
-  }
-
-  if (lane === "digitalhut") {
-
-    analysis = `
-      <p><strong>Creator Studio Quality:</strong> 88%</p>
-      <p><strong>AI Workspace Readiness:</strong> High</p>
-      <p><strong>Promotion Potential:</strong> 91%</p>
-      <p><strong>Simulator Integration Score:</strong> Medium</p>
-    `;
-
-  }
-
-  if (lane === "supportrd") {
-
-    analysis = `
-      <p><strong>Enterprise Readiness:</strong> 79%</p>
-      <p><strong>Office Professionalism:</strong> High</p>
-      <p><strong>Infrastructure Quality:</strong> 74%</p>
-      <p><strong>Commercial Scaling Potential:</strong> Medium</p>
-    `;
-
-  }
-
-  if (lane === "lasers") {
-
-    analysis = `
-      <p><strong>Equipment Quality:</strong> 81%</p>
-      <p><strong>Commodity Movement Potential:</strong> Medium</p>
-      <p><strong>Warehouse Efficiency:</strong> 72%</p>
-      <p><strong>Sales Conversion Potential:</strong> High</p>
-    `;
-
-  }
-
-  result.innerHTML = `
-
-    <div class="card">
-
-      <div class="tag">
-        DOJJ ANALYSIS COMPLETE
-      </div>
-
-      <p><strong>File:</strong> ${file.name}</p>
-
-      <p><strong>Business Lane:</strong> ${lane}</p>
-
-      ${analysis}
-
-      <p>
-
-        <strong>Dojj Recommendation:</strong>
-
-        Human review recommended before
-        operational action.
-
-      </p>
-
-    </div>
-
-  `;
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">SCAN MEMORY</div>
-
-  <h3>Dojj Scan History</h3>
-
-  <button onclick="showScanHistory()">
-    Show Saved Scans
-  </button>
-
-  <button onclick="clearScanHistory()">
-    Clear Scan History
-  </button>
-
-  <div id="scanHistory" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-function saveScanRecord(record) {
-
-  const history =
-    JSON.parse(localStorage.getItem("dojj_scan_history") || "[]");
-
-  history.unshift(record);
-
-  localStorage.setItem(
-    "dojj_scan_history",
-    JSON.stringify(history.slice(0, 50))
-  );
-
-}
-
-const originalRunScanner =
-  runScanner;
-
-runScanner = function () {
-
-  originalRunScanner();
-
-  const file =
-    document.getElementById("scannerUpload").files[0];
-
-  const lane =
-    document.getElementById("businessLane").value;
-
-  if (!file) return;
-
-  saveScanRecord({
-    file: file.name,
-    lane: lane,
-    time: new Date().toLocaleString(),
-    status: "Human review required"
-  });
-
-};
-
-function showScanHistory() {
-
-  const history =
-    JSON.parse(localStorage.getItem("dojj_scan_history") || "[]");
-
-  const box =
-    document.getElementById("scanHistory");
-
-  if (history.length === 0) {
-
-    box.innerHTML =
-      "<p>No scans saved yet.</p>";
-
-    return;
-
-  }
-
-  box.innerHTML =
-    history.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">SCAN ${index + 1}</div>
-
-        <p><strong>File:</strong> ${item.file}</p>
-
-        <p><strong>Business Lane:</strong> ${item.lane}</p>
-
-        <p><strong>Time:</strong> ${item.time}</p>
-
-        <p><strong>Status:</strong> ${item.status}</p>
-
-      </div>
-
-    `).join("");
-
-}
-
-function clearScanHistory() {
-
-  localStorage.removeItem("dojj_scan_history");
-
-  document.getElementById("scanHistory").innerHTML =
-    "<p>Scan history cleared.</p>";
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">PROJECTION ENGINE</div>
-
-  <h3>Dojj Operational Forecast</h3>
-
-  <p>
-    Incoming Replies:
-    <strong id="incomingReplies">124</strong>
-  </p>
-
-  <p>
-    Qualified Leads:
-    <strong id="qualifiedLeads">46</strong>
-  </p>
-
-  <p>
-    Commercial Opportunities:
-    <strong id="commercialLeads">18</strong>
-  </p>
-
-  <p>
-    Residential Opportunities:
-    <strong id="residentialLeads">28</strong>
-  </p>
-
-  <p>
-    Staffing Pressure:
-    <strong id="staffPressure">Moderate</strong>
-  </p>
-
-  <p>
-    Route Saturation:
-    <strong id="routeSaturation">Balanced</strong>
-  </p>
-
-  <p>
-    Expansion Readiness:
-    <strong id="expansionReadiness">
-      Controlled Growth
-    </strong>
-  </p>
-
-  <button onclick="runProjectionUpdate()">
-    Refresh Projections
-  </button>
-
-</div>
-
-<script>
-
-function randomRange(min, max) {
-
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
-
-}
-
-function runProjectionUpdate() {
-
-  const incoming =
-    randomRange(80, 180);
-
-  const qualified =
-    Math.floor(incoming * 0.38);
-
-  const commercial =
-    Math.floor(qualified * 0.42);
-
-  const residential =
-    qualified - commercial;
-
-  document.getElementById(
-    "incomingReplies"
-  ).innerText = incoming;
-
-  document.getElementById(
-    "qualifiedLeads"
-  ).innerText = qualified;
-
-  document.getElementById(
-    "commercialLeads"
-  ).innerText = commercial;
-
-  document.getElementById(
-    "residentialLeads"
-  ).innerText = residential;
-
-  let pressure = "Low";
-
-  if (qualified > 50) {
-    pressure = "Moderate";
-  }
-
-  if (qualified > 70) {
-    pressure = "High";
-  }
-
-  document.getElementById(
-    "staffPressure"
-  ).innerText = pressure;
-
-  let saturation = "Balanced";
-
-  if (incoming > 150) {
-    saturation = "Heavy";
-  }
-
-  document.getElementById(
-    "routeSaturation"
-  ).innerText = saturation;
-
-  let readiness =
-    "Controlled Growth";
-
-  if (commercial > 25) {
-    readiness =
-      "Expansion Candidate";
-  }
-
-  document.getElementById(
-    "expansionReadiness"
-  ).innerText = readiness;
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">APPROVAL QUEUE</div>
-
-  <h3>Dojj Opportunity Routing</h3>
-
-  <div id="approvalQueue"></div>
-
-</div>
-
-<script>
-
-const dojjRoutes = [
-
-  {
-
-    type:
-      "Commercial Landscaping Opportunity",
-
-    route:
-      "ThePlantManInc.com",
-
-    confidence:
-      "88%",
-
-    backlink:
-      "https://theplantmaninc.com",
-
-    recommendation:
-      "High patio and office greenery potential."
-
-  },
-
-  {
-
-    type:
-      "AI Creator Workspace",
-
-    route:
-      "DigitalHut.app",
-
-    confidence:
-      "91%",
-
-    backlink:
-      "https://digitalhut.app",
-
-    recommendation:
-      "Strong creator and AI simulator alignment."
-
-  },
-
-  {
-
-    type:
-      "Enterprise Office Environment",
-
-    route:
-      "SupportRD.com",
-
-    confidence:
-      "79%",
-
-    backlink:
-      "https://supportrd.com",
-
-    recommendation:
-      "Commercial infrastructure opportunity detected."
-
-  }
-
-];
-
-function renderApprovalQueue() {
-
-  const container =
-    document.getElementById(
-      "approvalQueue"
-    );
-
-  container.innerHTML =
-    dojjRoutes.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">
-          ROUTE ${index + 1}
-        </div>
-
-        <p>
-          <strong>Opportunity:</strong>
-          ${item.type}
-        </p>
-
-        <p>
-          <strong>Suggested Route:</strong>
-          ${item.route}
-        </p>
-
-        <p>
-          <strong>Confidence:</strong>
-          ${item.confidence}
-        </p>
-
-        <p>
-          <strong>Recommendation:</strong>
-          ${item.recommendation}
-        </p>
-
-        <a
-          href="${item.backlink}"
-          target="_blank"
-          class="button"
-        >
-          Open Route
-        </a>
-
-        <button
-          onclick="approveRoute(${index})"
-          class="button"
-          style="
-            margin-top:10px;
-            background:#22c55e;
-          "
-        >
-          Approve Route
-        </button>
-
-      </div>
-
-    `).join("");
-
-}
-
-function approveRoute(index) {
-
-  alert(
-    "Route approved for: "
-    + dojjRoutes[index].route
-  );
-
-}
-
-renderApprovalQueue();
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">ROUTE HISTORY</div>
-
-  <h3>Dojj Backlink Intelligence</h3>
-
-  <div id="routeHistory"></div>
-
-</div>
-
-<script>
-
-function saveApprovedRoute(route) {
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "dojj_route_history"
-      ) || "[]"
-    );
-
-  history.unshift(route);
-
-  localStorage.setItem(
-    "dojj_route_history",
-    JSON.stringify(history.slice(0, 50))
-  );
-
-}
-
-function approveRoute(index) {
-
-  const route =
-    dojjRoutes[index];
-
-  const approvedRoute = {
-
-    source:
-      "Charlotte Scanner",
-
-    opportunity:
-      route.type,
-
-    target:
-      route.route,
-
-    backlink:
-      route.backlink,
-
-    confidence:
-      route.confidence,
-
-    time:
-      new Date().toLocaleString(),
-
-    status:
-      "Approved"
-
-  };
-
-  saveApprovedRoute(
-    approvedRoute
-  );
-
-  renderRouteHistory();
-
-  alert(
-    "Approved route to "
-    + route.route
-  );
-
-}
-
-function renderRouteHistory() {
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "dojj_route_history"
-      ) || "[]"
-    );
-
-  const container =
-    document.getElementById(
-      "routeHistory"
-    );
-
-  if (history.length === 0) {
-
-    container.innerHTML =
-      "<p>No approved routes yet.</p>";
-
-    return;
-
-  }
-
-  container.innerHTML =
-    history.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">
-          LINK ${index + 1}
-        </div>
-
-        <p>
-          <strong>Source:</strong>
-          ${item.source}
-        </p>
-
-        <p>
-          <strong>Opportunity:</strong>
-          ${item.opportunity}
-        </p>
-
-        <p>
-          <strong>Target:</strong>
-          ${item.target}
-        </p>
-
-        <p>
-          <strong>Confidence:</strong>
-          ${item.confidence}
-        </p>
-
-        <p>
-          <strong>Status:</strong>
-          ${item.status}
-        </p>
-
-        <p>
-          <strong>Time:</strong>
-          ${item.time}
-        </p>
-
-        <a
-          href="${item.backlink}"
-          target="_blank"
-          class="button"
-        >
-          Open Backlink
-        </a>
-
-      </div>
-
-    `).join("");
-
-}
-
-renderRouteHistory();
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">CONTENT GENERATOR</div>
-
-  <h3>Dojj Operational Publishing</h3>
-
-  <button onclick="generateOperationalPost()">
-    Generate Route Content
-  </button>
-
-  <div id="generatedPost" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-function randomViews(min, max) {
-
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
-
-}
-
-function generateOperationalPost() {
-
-  const generated = `
-
-    <div class="card">
-
-      <div class="tag">
-        GENERATED ROUTE CONTENT
-      </div>
-
-      <h3>
-        Commercial Landscaping Opportunity
-      </h3>
-
-      <p>
-
-        Dojj identified a commercial landscaping
-        and presentation opportunity within the
-        Charlotte operational radius.
-
-      </p>
-
-      <p>
-
-        The system detected strong visibility,
-        office presentation potential,
-        customer-facing greenery opportunities,
-        and expansion compatibility.
-
-      </p>
-
-      <p>
-
-        <strong>Origin Source:</strong>
-
-        <a
-          href="https://theplantmaninc.com"
-          target="_blank"
-        >
-          ThePlantManInc.com
-        </a>
-
-      </p>
-
-      <p>
-
-        <strong>Connected Route:</strong>
-
-        <a
-          href="https://supportrd.com"
-          target="_blank"
-        >
-          SupportRD.com
-        </a>
-
-      </p>
-
-      <p>
-
-        <strong>Marketplace Visibility:</strong>
-
-        <a
-          href="https://digitalhut.app"
-          target="_blank"
-        >
-          DigitalHut.app
-        </a>
-
-      </p>
-
-      <p>
-
-        <strong>Operational Contact:</strong>
-
-        704-533-5163
-
-      </p>
-
-      <p>
-
-        <strong>General Coordination:</strong>
-
-        980-230-6202
-
-      </p>
-
-      <p>
-
-        <strong>Email:</strong>
-
-        zzzanthony123@gmail.com
-
-      </p>
-
-      <p>
-
-        <strong>Origin View Count:</strong>
-
-        ${randomViews(120, 1200)}
-
-      </p>
-
-      <p>
-
-        <strong>SupportRD View Count:</strong>
-
-        ${randomViews(40, 600)}
-
-      </p>
-
-      <p>
-
-        <strong>DigitalHut View Count:</strong>
-
-        ${randomViews(80, 900)}
-
-      </p>
-
-      <p>
-
-        <strong>Dojj Confidence:</strong>
-
-        88%
-
-      </p>
-
-      <p>
-
-        Human review recommended before
-        publishing or operational routing.
-
-      </p>
-
-    </div>
-
-  `;
-
-  document
-    .getElementById("generatedPost")
-    .innerHTML = generated;
-
-}
-
-</script>
-
-
-<script>
-
-function approveRoute(index) {
-
-  const route =
-    dojjRoutes[index];
-
-  const approved = {
-
-    source:
-      route.backlink,
-
-    opportunity:
-      route.type,
-
-    target:
-      route.route,
-
-    content: `
-Commercial opportunity routed through Dojj operational intelligence.
-
-Origin:
-${route.backlink}
-
-Connected business:
-${route.route}
-
-Recommendation:
-${route.recommendation}
-    `,
-
-    time:
-      new Date().toLocaleString(),
-
-    views:
-      Math.floor(
-        Math.random() * 1000
-      ) + 100
-
-  };
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "approved_routes"
-      ) || "[]"
-    );
-
-  history.unshift(approved);
-
-  localStorage.setItem(
-    "approved_routes",
-    JSON.stringify(history)
-  );
-
-  renderApprovedRoutes();
-
-}
-
-function renderApprovedRoutes() {
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "approved_routes"
-      ) || "[]"
-    );
-
-  const box =
-    document.getElementById(
-      "routeHistory"
-    );
-
-  if (history.length === 0) {
-
-    box.innerHTML =
-      "<p>No approved routes yet.</p>";
-
-    return;
-
-  }
-
-  box.innerHTML =
-    history.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">
-          APPROVED ROUTE ${index + 1}
-        </div>
-
-        <p>
-          <strong>Origin Source:</strong>
-        </p>
-
-        <a
-          href="${item.source}"
-          target="_blank"
-        >
-          ${item.source}
-        </a>
-
-        <p style="margin-top:12px;">
-          <strong>Connected Business:</strong>
-          ${item.target}
-        </p>
-
-        <p>
-          <strong>Views:</strong>
-          ${item.views}
-        </p>
-
-        <p>
-          <strong>Created:</strong>
-          ${item.time}
-        </p>
-
-        <div class="card">
-
-          ${item.content}
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-}
-
-renderApprovedRoutes();
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">PRODUCT RELATIONSHIP BUILDER</div>
-
-  <h3>Dojj Product Match + Buy Links</h3>
-
-  <select id="productMatch" onchange="renderProductMatch()" style="width:100%;padding:14px;border-radius:12px;background:#111827;color:white;">
-    <option value="office">Office / Commercial Match</option>
-    <option value="home">Residential Home Match</option>
-    <option value="creator">Creator / Studio Match</option>
-    <option value="outdoor">Outdoor / Patio Match</option>
-  </select>
-
-  <div id="productMatchResult" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-const productMatches = {
-
-  office: {
-    source: "SupportRD Shop",
-    sourceProduct: "Service Business Office Building",
-    sourceBuy: "https://shop.supportrd.com/products/service-business-office-building",
-    connected: "ThePlantManInc.com",
-    connectedProduct: "Commercial office plants, lobby greenery, executive plant installs",
-    connectedBuy: "https://theplantmaninc.com",
-    why: "Office building models connect with real commercial greenery services. This creates a design-to-service route: showcase the business space, then route buyers to plant installation and presentation upgrades."
-  },
-
-  home: {
-    source: "SupportRD Shop",
-    sourceProduct: "California Ranch House",
-    sourceBuy: "https://shop.supportrd.com/products/california-ranch-house",
-    connected: "ThePlantManInc.com",
-    connectedProduct: "Residential patio plants, interior plants, exterior greenery",
-    connectedBuy: "https://theplantmaninc.com",
-    why: "Residential house products connect directly with plant upgrades for patios, living rooms, bedrooms, pool areas, and exterior curb appeal."
-  },
-
-  creator: {
-    source: "SupportRD Shop",
-    sourceProduct: "Creator Studio Office Building",
-    sourceBuy: "https://shop.supportrd.com/products/creator-studio-office-building",
-    connected: "DigitalHut.app",
-    connectedProduct: "AI marketplace, creator workspace simulator, Product Hunt discovery",
-    connectedBuy: "https://digitalhut.app",
-    why: "Creator studio assets connect to DigitalHut's future simulator and AI marketplace experience. DigitalHut has no buyable product yet, so this routes discovery instead of purchase."
-  },
-
-  outdoor: {
-    source: "SupportRD Shop",
-    sourceProduct: "Florida Beach Pad",
-    sourceBuy: "https://shop.supportrd.com/products/florida-beach-pad",
-    connected: "ThePlantManInc.com",
-    connectedProduct: "Pool plants, patio greenery, tropical exterior design",
-    connectedBuy: "https://theplantmaninc.com",
-    why: "Outdoor lifestyle structures connect with real plant services for pool areas, patios, landscaping, and tropical-style presentation."
-  }
-
-};
-
-function renderProductMatch() {
-
-  const key = document.getElementById("productMatch").value;
-  const item = productMatches[key];
-
-  document.getElementById("productMatchResult").innerHTML = `
-
-    <div class="card">
-
-      <div class="tag">SIDE-BY-SIDE MATCH</div>
-
-      <h3>${item.sourceProduct}</h3>
-
-      <p><strong>Source Company:</strong> ${item.source}</p>
-
-      <p>
-        <strong>Buy Source Product:</strong><br>
-        <a href="${item.sourceBuy}" target="_blank">
-          ${item.sourceBuy}
-        </a>
-      </p>
-
-      <hr>
-
-      <p><strong>Connected Company:</strong> ${item.connected}</p>
-
-      <p><strong>Connected Offer:</strong> ${item.connectedProduct}</p>
-
-      <p>
-        <strong>Connected Link:</strong><br>
-        <a href="${item.connectedBuy}" target="_blank">
-          ${item.connectedBuy}
-        </a>
-      </p>
-
-      <hr>
-
-      <p><strong>Why This Connection Works:</strong></p>
-      <p>${item.why}</p>
-
-      <button onclick="approveProductRelationship('${key}')" style="background:#22c55e;">
-        Approve Product Relationship
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-function approveProductRelationship(key) {
-
-  const item = productMatches[key];
-
-  const history =
-    JSON.parse(localStorage.getItem("dojj_product_relationships") || "[]");
-
-  history.unshift({
-    source: item.source,
-    sourceProduct: item.sourceProduct,
-    sourceBuy: item.sourceBuy,
-    connected: item.connected,
-    connectedProduct: item.connectedProduct,
-    connectedBuy: item.connectedBuy,
-    why: item.why,
-    time: new Date().toLocaleString(),
-    status: "Approved"
-  });
-
-  localStorage.setItem(
-    "dojj_product_relationships",
-    JSON.stringify(history.slice(0, 50))
-  );
-
-  alert("Product relationship approved and saved.");
-}
-
-renderProductMatch();
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">EXTERNAL SOURCE ROUTER</div>
-
-  <h3>Dojj Detected Traffic Sources</h3>
-
-  <select
-    id="externalSource"
-    onchange="renderExternalSource()"
-    style="width:100%;padding:14px;border-radius:12px;background:#111827;color:white;"
-  >
-    <option value="office">Charlotte Office Interiors</option>
-    <option value="builder">Carolina Custom Builders</option>
-    <option value="studio">Queen City Creator Studio</option>
-    <option value="supplier">Regional Equipment Supplier</option>
-  </select>
-
-  <div id="externalSourceResult" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-const externalSources = {
-
-  office: {
-    sourceName: "Charlotte Office Interiors",
-    sourceUrl: "https://example.com/charlotte-office-interiors",
-    sourceContact: "info@example.com",
-    detectedViews: 284,
-    products: [
-      "Office furniture",
-      "Lobby layout design",
-      "Executive workspace planning"
-    ],
-    routeTo: "ThePlantManInc.com",
-    routeUrl: "https://theplantmaninc.com",
-    matchedOffer: [
-      "Lobby greenery",
-      "Executive office plants",
-      "Commercial plant installs"
-    ],
-    why: "Office interiors and commercial greenery work together because both improve presentation, comfort, customer trust, and workspace value."
-  },
-
-  builder: {
-    sourceName: "Carolina Custom Builders",
-    sourceUrl: "https://example.com/carolina-custom-builders",
-    sourceContact: "contact@example.com",
-    detectedViews: 197,
-    products: [
-      "Home remodeling",
-      "Patio upgrades",
-      "Exterior improvements"
-    ],
-    routeTo: "SupportRD.com",
-    routeUrl: "https://supportrd.com",
-    matchedOffer: [
-      "Architecture support",
-      "Business planning",
-      "Project coordination"
-    ],
-    why: "Builders connect with SupportRD because design, planning, and business infrastructure can support larger property improvement projects."
-  },
-
-  studio: {
-    sourceName: "Queen City Creator Studio",
-    sourceUrl: "https://example.com/queen-city-creator-studio",
-    sourceContact: "studio@example.com",
-    detectedViews: 421,
-    products: [
-      "Podcast rooms",
-      "Creator workspaces",
-      "Video production setups"
-    ],
-    routeTo: "DigitalHut.app",
-    routeUrl: "https://digitalhut.app",
-    matchedOffer: [
-      "AI marketplace",
-      "3D simulator",
-      "Creator studio product experience"
-    ],
-    why: "Creator studios connect with DigitalHut because DigitalHut is building AI marketplace and simulator environments for digital product presentation."
-  },
-
-  supplier: {
-    sourceName: "Regional Equipment Supplier",
-    sourceUrl: "https://example.com/regional-equipment-supplier",
-    sourceContact: "sales@example.com",
-    detectedViews: 166,
-    products: [
-      "Equipment sales",
-      "Warehouse inventory",
-      "Commercial supplies"
-    ],
-    routeTo: "LasersMarket.com",
-    routeUrl: "https://lasersmarket.com",
-    matchedOffer: [
-      "Equipment marketplace",
-      "Commodity movement",
-      "Sales routing"
-    ],
-    why: "Equipment suppliers connect with LasersMarket because both are focused on moving products, equipment, and commercial inventory efficiently."
-  }
-
-};
-
-function renderExternalSource() {
-
-  const key = document.getElementById("externalSource").value;
-  const item = externalSources[key];
-
-  document.getElementById("externalSourceResult").innerHTML = `
-
-    <div class="card">
-
-      <div class="tag">DETECTED SOURCE</div>
-
-      <h3>${item.sourceName}</h3>
-
-      <p><strong>Source Link:</strong><br>
-        <a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a>
-      </p>
-
-      <p><strong>Detected Views:</strong> ${item.detectedViews}</p>
-
-      <p><strong>Source Contact:</strong> ${item.sourceContact}</p>
-
-      <p><strong>Source Products / Services:</strong></p>
-      <ul>
-        ${item.products.map(p => `<li>${p}</li>`).join("")}
-      </ul>
-
-      <hr>
-
-      <p><strong>Suggested Route:</strong><br>
-        <a href="${item.routeUrl}" target="_blank">${item.routeTo}</a>
-      </p>
-
-      <p><strong>Matched Offers:</strong></p>
-      <ul>
-        ${item.matchedOffer.map(p => `<li>${p}</li>`).join("")}
-      </ul>
-
-      <p><strong>Why This Match Works:</strong></p>
-      <p>${item.why}</p>
-
-      <button
-        onclick="generateRelationshipPage('${key}')"
-        style="background:#22c55e;"
-      >
-        Generate Relationship Page
-      </button>
-
-      <div id="relationshipPagePreview" style="margin-top:20px;"></div>
-
-    </div>
-
-  `;
-
-}
-
-function generateRelationshipPage(key) {
-
-  const item = externalSources[key];
-
-  const blogPost = `
-
-    <div class="card">
-
-      <div class="tag">RELATIONSHIP PAGE DRAFT</div>
-
-      <h2>${item.sourceName} + ${item.routeTo}</h2>
-
-      <p>
-        Dojj detected traffic and business overlap between
-        <a href="${item.sourceUrl}" target="_blank">${item.sourceName}</a>
-        and
-        <a href="${item.routeUrl}" target="_blank">${item.routeTo}</a>.
-      </p>
-
-      <p>
-        This connection was identified from ${item.detectedViews}
-        detected views and matching business signals.
-      </p>
-
-      <h3>What ${item.sourceName} Offers</h3>
-
-      <ul>
-        ${item.products.map(p => `<li>${p}</li>`).join("")}
-      </ul>
-
-      <h3>What ${item.routeTo} Offers</h3>
-
-      <ul>
-        ${item.matchedOffer.map(p => `<li>${p}</li>`).join("")}
-      </ul>
-
-      <h3>Why This Relationship Makes Sense</h3>
-
-      <p>${item.why}</p>
-
-      <h3>Contacts</h3>
-
-      <p><strong>External Source:</strong> ${item.sourceContact}</p>
-
-      <p><strong>Dojj / General Coordination:</strong> 980-230-6202</p>
-
-      <p><strong>Email:</strong> zzzanthony123@gmail.com</p>
-
-      <p>
-        <strong>PlantMan direct contact only:</strong>
-        704-533-5163
-      </p>
-
-      <h3>Backlink Route</h3>
-
-      <p>
-        Source:
-        <a href="${item.sourceUrl}" target="_blank">${item.sourceUrl}</a>
-      </p>
-
-      <p>
-        Routed Business:
-        <a href="${item.routeUrl}" target="_blank">${item.routeUrl}</a>
-      </p>
-
-      <button
-        onclick="approveGeneratedRelationship('${key}')"
-        style="background:#22c55e;"
-      >
-        Approve Relationship Draft
-      </button>
-
-    </div>
-
-  `;
-
-  document.getElementById("relationshipPagePreview").innerHTML = blogPost;
-
-}
-
-function approveGeneratedRelationship(key) {
-
-  const item = externalSources[key];
-
-  const history =
-    JSON.parse(localStorage.getItem("dojj_relationship_pages") || "[]");
-
-  history.unshift({
-    sourceName: item.sourceName,
-    sourceUrl: item.sourceUrl,
-    sourceContact: item.sourceContact,
-    routeTo: item.routeTo,
-    routeUrl: item.routeUrl,
-    detectedViews: item.detectedViews,
-    why: item.why,
-    time: new Date().toLocaleString(),
-    status: "Approved Draft"
-  });
-
-  localStorage.setItem(
-    "dojj_relationship_pages",
-    JSON.stringify(history.slice(0, 50))
-  );
-
-  alert("Relationship draft approved and saved.");
-
-}
-
-renderExternalSource();
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">TRENDING DISCOVERY ENGINE</div>
-
-  <h3>Dojj Autonomous Discovery</h3>
-
-  <button onclick="discoverSources()">
-    Discover Trending Sources
-  </button>
-
-  <div id="discoveryResults" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-const trendingDiscovery = [
-
-  {
-
-    company:
-      "Charlotte Workspace Design",
-
-    url:
-      "https://example.com/workspace-design",
-
-    traffic:
-      "+2400 monthly growth",
-
-    category:
-      "Commercial Workspace",
-
-    overlap:
-      "Executive office greenery and commercial presentation compatibility.",
-
-    route:
-      "ThePlantManInc.com",
-
-    routeUrl:
-      "https://theplantmaninc.com"
-
-  },
-
-  {
-
-    company:
-      "Creator Studio Network",
-
-    url:
-      "https://example.com/creator-network",
-
-    traffic:
-      "+5100 monthly growth",
-
-    category:
-      "Creator Economy",
-
-    overlap:
-      "AI workspace simulator and creator productivity overlap.",
-
-    route:
-      "DigitalHut.app",
-
-    routeUrl:
-      "https://digitalhut.app"
-
-  },
-
-  {
-
-    company:
-      "Regional Architecture Group",
-
-    url:
-      "https://example.com/architecture-group",
-
-    traffic:
-      "+3200 monthly growth",
-
-    category:
-      "Architecture / Planning",
-
-    overlap:
-      "Commercial business planning and infrastructure overlap.",
-
-    route:
-      "SupportRD.com",
-
-    routeUrl:
-      "https://supportrd.com"
-
-  }
-
-];
-
-function discoverSources() {
-
-  const container =
-    document.getElementById(
-      "discoveryResults"
-    );
-
-  container.innerHTML =
-    trendingDiscovery.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">
-          TRENDING SOURCE ${index + 1}
-        </div>
-
-        <h3>
-          ${item.company}
-        </h3>
-
-        <p>
-          <strong>Detected Traffic Growth:</strong>
-          ${item.traffic}
-        </p>
-
-        <p>
-          <strong>Category:</strong>
-          ${item.category}
-        </p>
-
-        <p>
-          <strong>Source URL:</strong>
-          <br>
-          <a href="${item.url}" target="_blank">
-            ${item.url}
-          </a>
-        </p>
-
-        <p>
-          <strong>Suggested Route:</strong>
-          <br>
-          <a href="${item.routeUrl}" target="_blank">
-            ${item.route}
-          </a>
-        </p>
-
-        <p>
-          <strong>Operational Overlap:</strong>
-          ${item.overlap}
-        </p>
-
-        <button
-          onclick="generateDiscoveryRelationship(${index})"
-          style="background:#22c55e;"
-        >
-          Generate Relationship Draft
-        </button>
-
-      </div>
-
-    `).join("");
-
-}
-
-function generateDiscoveryRelationship(index) {
-
-  const item =
-    trendingDiscovery[index];
-
-  const html = `
-
-    <div class="card">
-
-      <div class="tag">
-        GENERATED DISCOVERY RELATIONSHIP
-      </div>
-
-      <h2>
-        ${item.company}
-        +
-        ${item.route}
-      </h2>
-
-      <p>
-
-        Dojj identified rapid visibility growth
-        from ${item.company}.
-
-      </p>
-
-      <p>
-
-        Traffic increase:
-        ${item.traffic}
-
-      </p>
-
-      <p>
-
-        Operational overlap:
-        ${item.overlap}
-
-      </p>
-
-      <p>
-
-        <strong>External Source:</strong>
-        <br>
-
-        <a href="${item.url}" target="_blank">
-          ${item.url}
-        </a>
-
-      </p>
-
-      <p>
-
-        <strong>Internal Route:</strong>
-        <br>
-
-        <a href="${item.routeUrl}" target="_blank">
-          ${item.routeUrl}
-        </a>
-
-      </p>
-
-      <p>
-
-        The relationship creates potential
-        cross-visibility between:
-        products,
-        services,
-        operational audiences,
-        and business presentation systems.
-
-      </p>
-
-      <button
-        onclick="approveDiscoveryRelationship(${index})"
-        style="background:#22c55e;"
-      >
-        Approve Discovery Relationship
-      </button>
-
-    </div>
-
-  `;
-
-  document.getElementById(
-    "relationshipPagePreview"
-  ).innerHTML = html;
-
-}
-
-function approveDiscoveryRelationship(index) {
-
-  const item =
-    trendingDiscovery[index];
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "autonomous_discovery"
-      ) || "[]"
-    );
-
-  history.unshift({
-
-    company:
-      item.company,
-
-    url:
-      item.url,
-
-    route:
-      item.route,
-
-    routeUrl:
-      item.routeUrl,
-
-    traffic:
-      item.traffic,
-
-    overlap:
-      item.overlap,
-
-    approved:
-      true,
-
-    time:
-      new Date().toLocaleString()
-
-  });
-
-  localStorage.setItem(
-    "autonomous_discovery",
-    JSON.stringify(history)
-  );
-
-  alert(
-    "Discovery relationship approved."
-  );
-
-}
-
-</script>
-
-
-<div class="card" style="margin-top:20px;">
-
-  <div class="tag">LIVE RELATIONSHIP BUILDER</div>
-
-  <h3>Build From Real Discovered Sources</h3>
-
-  <button onclick="loadLiveRelationshipSources()">
-    Load Real Sources
-  </button>
-
-  <div id="liveRelationshipSources" style="margin-top:20px;"></div>
-
-</div>
-
-<script>
-
-let liveSources = [];
-
-async function loadLiveRelationshipSources() {
-
-  const box =
-    document.getElementById("liveRelationshipSources");
-
-  box.innerHTML =
-    "<p>Loading real external sources...</p>";
-
-  const response =
-    await fetch("/api/discover");
-
-  const data =
-    await response.json();
-
-  liveSources =
-    data.results.filter(item => item.sourceUrl);
-
-  box.innerHTML =
-    liveSources.map((item, index) => `
-
-      <div class="card">
-
-        <div class="tag">REAL SOURCE ${index + 1}</div>
-
-        <h3>${item.title || item.source}</h3>
-
-        <p><strong>External Source:</strong><br>
-          <a href="${item.sourceUrl}" target="_blank">
-            ${item.sourceUrl}
-          </a>
-        </p>
-
-        <p><strong>Description:</strong>
-          ${item.description || "No description found"}
-        </p>
-
-        <p><strong>Suggested Route:</strong><br>
-          <a href="${item.suggestedRouteUrl}" target="_blank">
-            ${item.suggestedRoute}
-          </a>
-        </p>
-
-        <p><strong>Confidence:</strong>
-          ${item.confidence || "N/A"}%
-        </p>
-
-        <button
-          onclick="generateLiveRelationshipDraft(${index})"
-          style="background:#22c55e;"
-        >
-          Generate Blog + Backlink Draft
-        </button>
-
-      </div>
-
-    `).join("");
-
-}
-
-function generateLiveRelationshipDraft(index) {
-
-  const item =
-    liveSources[index];
-
-  const draft = `
-
-    <div class="card">
-
-      <div class="tag">REAL RELATIONSHIP DRAFT</div>
-
-      <h2>
-        ${item.title || item.source}
-        +
-        ${item.suggestedRoute}
-      </h2>
-
-      <p>
-        Dojj discovered an external source at:
-      </p>
-
-      <p>
-        <a href="${item.sourceUrl}" target="_blank">
-          ${item.sourceUrl}
-        </a>
-      </p>
-
-      <p>
-        The page metadata suggests:
-        ${item.description || "No description available."}
-      </p>
-
-      <p>
-        Based on the detected category and business language,
-        Dojj recommends routing this opportunity to:
-      </p>
-
-      <p>
-        <a href="${item.suggestedRouteUrl}" target="_blank">
-          ${item.suggestedRouteUrl}
-        </a>
-      </p>
-
-      <h3>Why This Connection Works</h3>
-
-      <p>
-        This source shows business language related to:
-        ${item.category || "commercial activity"}.
-        Dojj matched that signal against the connected business
-        because the service category, audience, and operational
-        intent appear compatible.
-      </p>
-
-      <h3>Contact / Coordination</h3>
-
-      <p>
-        External contact:
-        Not extracted yet.
-      </p>
-
-      <p>
-        Dojj / general coordination:
-        980-230-6202
-      </p>
-
-      <p>
-        Email:
-        zzzanthony123@gmail.com
-      </p>
-
-      <p>
-        PlantMan direct only:
-        704-533-5163
-      </p>
-
-      <h3>Backlink Route</h3>
-
-      <p>
-        Source:
-        <a href="${item.sourceUrl}" target="_blank">
-          ${item.sourceUrl}
-        </a>
-      </p>
-
-      <p>
-        Routed business:
-        <a href="${item.suggestedRouteUrl}" target="_blank">
-          ${item.suggestedRouteUrl}
-        </a>
-      </p>
-
-      <button
-        onclick="approveLiveRelationship(${index})"
-        style="background:#22c55e;"
-      >
-        Approve Real Relationship Draft
-      </button>
-
-    </div>
-
-  `;
-
-  document
-    .getElementById("liveRelationshipSources")
-    .insertAdjacentHTML("beforeend", draft);
-
-}
-
-function approveLiveRelationship(index) {
-
-  const item =
-    liveSources[index];
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "approved_live_relationships"
-      ) || "[]"
-    );
-
-  history.unshift({
-
-    source:
-      item.source || item.title,
-
-    sourceUrl:
-      item.sourceUrl,
-
-    route:
-      item.suggestedRoute,
-
-    routeUrl:
-      item.suggestedRouteUrl,
-
-    description:
-      item.description,
-
-    confidence:
-      item.confidence,
-
-    approvedAt:
-      new Date().toLocaleString(),
-
-    status:
-      "Approved real-source draft"
-
-  });
-
-  localStorage.setItem(
-    "approved_live_relationships",
-    JSON.stringify(history.slice(0, 50))
-  );
-
-  alert("Real source relationship approved and saved.");
-
-}
-
-</script>
-
