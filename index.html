@@ -732,3 +732,133 @@ function clearScanHistory() {
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">PROJECTION ENGINE</div>
+
+  <h3>Dojj Operational Forecast</h3>
+
+  <p>
+    Incoming Replies:
+    <strong id="incomingReplies">124</strong>
+  </p>
+
+  <p>
+    Qualified Leads:
+    <strong id="qualifiedLeads">46</strong>
+  </p>
+
+  <p>
+    Commercial Opportunities:
+    <strong id="commercialLeads">18</strong>
+  </p>
+
+  <p>
+    Residential Opportunities:
+    <strong id="residentialLeads">28</strong>
+  </p>
+
+  <p>
+    Staffing Pressure:
+    <strong id="staffPressure">Moderate</strong>
+  </p>
+
+  <p>
+    Route Saturation:
+    <strong id="routeSaturation">Balanced</strong>
+  </p>
+
+  <p>
+    Expansion Readiness:
+    <strong id="expansionReadiness">
+      Controlled Growth
+    </strong>
+  </p>
+
+  <button onclick="runProjectionUpdate()">
+    Refresh Projections
+  </button>
+
+</div>
+
+<script>
+
+function randomRange(min, max) {
+
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
+
+}
+
+function runProjectionUpdate() {
+
+  const incoming =
+    randomRange(80, 180);
+
+  const qualified =
+    Math.floor(incoming * 0.38);
+
+  const commercial =
+    Math.floor(qualified * 0.42);
+
+  const residential =
+    qualified - commercial;
+
+  document.getElementById(
+    "incomingReplies"
+  ).innerText = incoming;
+
+  document.getElementById(
+    "qualifiedLeads"
+  ).innerText = qualified;
+
+  document.getElementById(
+    "commercialLeads"
+  ).innerText = commercial;
+
+  document.getElementById(
+    "residentialLeads"
+  ).innerText = residential;
+
+  let pressure = "Low";
+
+  if (qualified > 50) {
+    pressure = "Moderate";
+  }
+
+  if (qualified > 70) {
+    pressure = "High";
+  }
+
+  document.getElementById(
+    "staffPressure"
+  ).innerText = pressure;
+
+  let saturation = "Balanced";
+
+  if (incoming > 150) {
+    saturation = "Heavy";
+  }
+
+  document.getElementById(
+    "routeSaturation"
+  ).innerText = saturation;
+
+  let readiness =
+    "Controlled Growth";
+
+  if (commercial > 25) {
+    readiness =
+      "Expansion Candidate";
+  }
+
+  document.getElementById(
+    "expansionReadiness"
+  ).innerText = readiness;
+
+}
+
+</script>
+
