@@ -116,7 +116,7 @@ async function load(){
 }
 async function publish(i){
  const r=await fetch('/api/publish?i='+i).then(r=>r.json());
- alert(r.published ? 'Published: '+r.url : 'Publish failed. Check GITHUB_TOKEN.');
+ alert(JSON.stringify(r));
 }
 </script></body></html>`, {headers:{"content-type":"text/html"}});
   }
