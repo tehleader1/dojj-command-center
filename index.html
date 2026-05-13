@@ -1468,3 +1468,148 @@ renderApprovedRoutes();
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">PRODUCT RELATIONSHIP BUILDER</div>
+
+  <h3>Dojj Product Match + Buy Links</h3>
+
+  <select id="productMatch" onchange="renderProductMatch()" style="width:100%;padding:14px;border-radius:12px;background:#111827;color:white;">
+    <option value="office">Office / Commercial Match</option>
+    <option value="home">Residential Home Match</option>
+    <option value="creator">Creator / Studio Match</option>
+    <option value="outdoor">Outdoor / Patio Match</option>
+  </select>
+
+  <div id="productMatchResult" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+const productMatches = {
+
+  office: {
+    source: "SupportRD Shop",
+    sourceProduct: "Service Business Office Building",
+    sourceBuy: "https://shop.supportrd.com/products/service-business-office-building",
+    connected: "ThePlantManInc.com",
+    connectedProduct: "Commercial office plants, lobby greenery, executive plant installs",
+    connectedBuy: "https://theplantmaninc.com",
+    why: "Office building models connect with real commercial greenery services. This creates a design-to-service route: showcase the business space, then route buyers to plant installation and presentation upgrades."
+  },
+
+  home: {
+    source: "SupportRD Shop",
+    sourceProduct: "California Ranch House",
+    sourceBuy: "https://shop.supportrd.com/products/california-ranch-house",
+    connected: "ThePlantManInc.com",
+    connectedProduct: "Residential patio plants, interior plants, exterior greenery",
+    connectedBuy: "https://theplantmaninc.com",
+    why: "Residential house products connect directly with plant upgrades for patios, living rooms, bedrooms, pool areas, and exterior curb appeal."
+  },
+
+  creator: {
+    source: "SupportRD Shop",
+    sourceProduct: "Creator Studio Office Building",
+    sourceBuy: "https://shop.supportrd.com/products/creator-studio-office-building",
+    connected: "DigitalHut.app",
+    connectedProduct: "AI marketplace, creator workspace simulator, Product Hunt discovery",
+    connectedBuy: "https://digitalhut.app",
+    why: "Creator studio assets connect to DigitalHut's future simulator and AI marketplace experience. DigitalHut has no buyable product yet, so this routes discovery instead of purchase."
+  },
+
+  outdoor: {
+    source: "SupportRD Shop",
+    sourceProduct: "Florida Beach Pad",
+    sourceBuy: "https://shop.supportrd.com/products/florida-beach-pad",
+    connected: "ThePlantManInc.com",
+    connectedProduct: "Pool plants, patio greenery, tropical exterior design",
+    connectedBuy: "https://theplantmaninc.com",
+    why: "Outdoor lifestyle structures connect with real plant services for pool areas, patios, landscaping, and tropical-style presentation."
+  }
+
+};
+
+function renderProductMatch() {
+
+  const key = document.getElementById("productMatch").value;
+  const item = productMatches[key];
+
+  document.getElementById("productMatchResult").innerHTML = `
+
+    <div class="card">
+
+      <div class="tag">SIDE-BY-SIDE MATCH</div>
+
+      <h3>${item.sourceProduct}</h3>
+
+      <p><strong>Source Company:</strong> ${item.source}</p>
+
+      <p>
+        <strong>Buy Source Product:</strong><br>
+        <a href="${item.sourceBuy}" target="_blank">
+          ${item.sourceBuy}
+        </a>
+      </p>
+
+      <hr>
+
+      <p><strong>Connected Company:</strong> ${item.connected}</p>
+
+      <p><strong>Connected Offer:</strong> ${item.connectedProduct}</p>
+
+      <p>
+        <strong>Connected Link:</strong><br>
+        <a href="${item.connectedBuy}" target="_blank">
+          ${item.connectedBuy}
+        </a>
+      </p>
+
+      <hr>
+
+      <p><strong>Why This Connection Works:</strong></p>
+      <p>${item.why}</p>
+
+      <button onclick="approveProductRelationship('${key}')" style="background:#22c55e;">
+        Approve Product Relationship
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+function approveProductRelationship(key) {
+
+  const item = productMatches[key];
+
+  const history =
+    JSON.parse(localStorage.getItem("dojj_product_relationships") || "[]");
+
+  history.unshift({
+    source: item.source,
+    sourceProduct: item.sourceProduct,
+    sourceBuy: item.sourceBuy,
+    connected: item.connected,
+    connectedProduct: item.connectedProduct,
+    connectedBuy: item.connectedBuy,
+    why: item.why,
+    time: new Date().toLocaleString(),
+    status: "Approved"
+  });
+
+  localStorage.setItem(
+    "dojj_product_relationships",
+    JSON.stringify(history.slice(0, 50))
+  );
+
+  alert("Product relationship approved and saved.");
+}
+
+renderProductMatch();
+
+</script>
+
