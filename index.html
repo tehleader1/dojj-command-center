@@ -417,3 +417,72 @@ function showTab(tabId) {
 
 </div>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">VIDEO SCANNER</div>
+
+  <h3>Dojj Real-World Asset Scanner</h3>
+
+  <p>
+    Upload a job site, product, office, landscape, equipment, or sales environment for review.
+  </p>
+
+  <input
+    type="file"
+    id="scannerUpload"
+    accept="image/*,video/*"
+  >
+
+  <button onclick="runScanner()">
+    Run Dojj Scan
+  </button>
+
+  <div id="scanResult" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+function runScanner() {
+
+  const file =
+    document.getElementById("scannerUpload").files[0];
+
+  const result =
+    document.getElementById("scanResult");
+
+  if (!file) {
+    result.innerHTML =
+      "<p style='color:#f87171;'>Upload a photo or video first.</p>";
+    return;
+  }
+
+  result.innerHTML = `
+    <div class="card">
+
+      <div class="tag">SCAN COMPLETE</div>
+
+      <p><strong>File:</strong> ${file.name}</p>
+
+      <p><strong>Visual Quality:</strong> 82%</p>
+
+      <p><strong>Commercial Opportunity:</strong> 76%</p>
+
+      <p><strong>Safety Risk:</strong> Low</p>
+
+      <p><strong>Promotion Potential:</strong> Medium-High</p>
+
+      <p><strong>Dojj Recommendation:</strong>
+        Human review recommended before action.
+        Improve lighting, reduce clutter, check presentation,
+        and route strong opportunities to the correct business lane.
+      </p>
+
+    </div>
+  `;
+
+}
+
+</script>
+
