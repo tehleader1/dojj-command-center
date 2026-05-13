@@ -254,3 +254,97 @@ if (
 
 </html>
 
+
+<div class="nav" style="margin-top:20px;">
+
+  <button onclick="showTab('scanner')">
+    Scanner
+  </button>
+
+  <button onclick="showTab('routing')">
+    Routing
+  </button>
+
+  <button onclick="showTab('projections')">
+    Projections
+  </button>
+
+</div>
+
+<div id="scanner" class="tab">
+
+  <h2>Charlotte 100-Mile Scanner</h2>
+
+  <div class="card">
+
+    <div class="tag">SCANNER ACTIVE</div>
+
+    <p>
+      Commercial + residential opportunity
+      scanner online.
+    </p>
+
+  </div>
+
+</div>
+
+<div
+  id="routing"
+  class="tab"
+  style="display:none;"
+>
+
+  <h2>Sales Routing</h2>
+
+  <div class="card">
+
+    <div class="tag">ROUTING</div>
+
+    <p>
+      Call-center and lead routing system active.
+    </p>
+
+  </div>
+
+</div>
+
+<div
+  id="projections"
+  class="tab"
+  style="display:none;"
+>
+
+  <h2>Volume Projections</h2>
+
+  <div class="card">
+
+    <div class="tag">PROJECTIONS</div>
+
+    <p>
+      Sales volume and staffing projections active.
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+
+function showTab(tabId) {
+
+  document
+    .querySelectorAll(".tab")
+    .forEach((tab) => {
+
+      tab.style.display = "none";
+
+    });
+
+  document
+    .getElementById(tabId)
+    .style.display = "block";
+
+}
+
+</script>
+
