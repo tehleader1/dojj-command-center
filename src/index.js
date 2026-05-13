@@ -126,8 +126,41 @@ export default {
     }
 
     if (url.pathname === "/api/discover") {
-      const shuffled = sources.sort(() => Math.random() - 0.5).slice(0,3);
+      const shuffled = sources
+        .map((item, realIndex) => ({ ...item, realIndex }))
+        .sort(() => Math.random() - 0.5)
+        .slice(0,3);
+
       return Response.json({ results: shuffled });
+    }
+
+    if (url.pathname === "/api/history") {
+      const gh = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/blog`, {
+        headers:{
+          "Authorization":`Bearer ${env.GITHUB_TOKEN}`,
+          "Accept":"application/vnd.github+json",
+          "User-Agent":"DojjHistory"
+        }
+      });
+
+      const files = await gh.json();
+
+      if (!gh.ok || !Array.isArray(files)) {
+        return Response.json({ ok:false, blogs:[], error:files });
+      }
+
+      const blogs = files
+        .filter(file => file.name.endsWith(".html"))
+        .map(file => ({
+          name:file.name,
+          path:file.path,
+          github:file.html_url,
+          live:"/blog/" + file.name,
+          raw:file.download_url
+        }))
+        .reverse();
+
+      return Response.json({ ok:true, blogs });
     }
 
     if (url.pathname === "/api/preview") {
@@ -162,6 +195,7 @@ body{background:#020617;color:white;font-family:Arial;padding:35px}
 </style></head><body>
 <h1>Dojj Command Center</h1>
 <div class="card"><h2>Live Discovery</h2><button onclick="load()">Load 3 External Sources</button><div id="out"></div></div>
+<div class="card"><h2>Published Blog History</h2><button onclick="historyList()">Refresh History</button><div id="history"></div></div>
 <script>
 let current=[];
 async function load(){
@@ -169,19 +203,37 @@ async function load(){
  current=d.results;
  out.innerHTML=current.map((x,i)=>\`
  <div class="card"><h3>\${x.source}</h3><p><a href="\${x.url}" target="_blank">\${x.url}</a></p><p>Route: <a href="\${x.routeUrl}">\${x.route}</a></p><p>\${x.category}</p>
- <a href="/api/preview?i=\${i}" target="_blank"><button>Preview Blog</button></a>
- <button onclick="publish(\${i})">Approve + Publish</button></div>\`).join('');
+ <a href="/api/preview?i=\${x.realIndex}" target="_blank"><button>Preview Blog</button></a>
+ <button onclick="publish(\${x.realIndex})">Approve + Publish</button></div>\`).join('');
 }
 async function publish(i){
  const r=await fetch('/api/publish?i='+i).then(r=>r.json());
  if(r.published){
    alert('Published successfully: '+r.liveUrl+' — loading 3 new sources next.');
    await load();
+   await historyList();
  } else {
    alert(JSON.stringify(r.error));
  }
 }
+
+async function historyList(){
+ const data=await fetch('/api/history').then(r=>r.json());
+ if(!data.ok){
+   history.innerHTML='<p>History unavailable.</p>';
+   return;
+ }
+ history.innerHTML=data.blogs.map((b,idx)=>\`
+   <div class="card">
+     <h3>Published Blog \${idx+1}</h3>
+     <p><strong>File:</strong> \${b.name}</p>
+     <p><a href="\${b.live}" target="_blank">Open Live Blog</a></p>
+     <p><a href="\${b.github}" target="_blank">Open GitHub File</a></p>
+   </div>
+ \`).join('');
+}
 load();
+historyList();
 </script></body></html>`, {headers:{"content-type":"text/html"}});
   }
 }
