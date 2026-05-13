@@ -624,3 +624,111 @@ function runScanner() {
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">SCAN MEMORY</div>
+
+  <h3>Dojj Scan History</h3>
+
+  <button onclick="showScanHistory()">
+    Show Saved Scans
+  </button>
+
+  <button onclick="clearScanHistory()">
+    Clear Scan History
+  </button>
+
+  <div id="scanHistory" style="margin-top:20px;"></div>
+
+</div>
+
+<script>
+
+function saveScanRecord(record) {
+
+  const history =
+    JSON.parse(localStorage.getItem("dojj_scan_history") || "[]");
+
+  history.unshift(record);
+
+  localStorage.setItem(
+    "dojj_scan_history",
+    JSON.stringify(history.slice(0, 50))
+  );
+
+}
+
+const originalRunScanner =
+  runScanner;
+
+runScanner = function () {
+
+  originalRunScanner();
+
+  const file =
+    document.getElementById("scannerUpload").files[0];
+
+  const lane =
+    document.getElementById("businessLane").value;
+
+  if (!file) return;
+
+  saveScanRecord({
+    file: file.name,
+    lane: lane,
+    time: new Date().toLocaleString(),
+    status: "Human review required"
+  });
+
+};
+
+function showScanHistory() {
+
+  const history =
+    JSON.parse(localStorage.getItem("dojj_scan_history") || "[]");
+
+  const box =
+    document.getElementById("scanHistory");
+
+  if (history.length === 0) {
+
+    box.innerHTML =
+      "<p>No scans saved yet.</p>";
+
+    return;
+
+  }
+
+  box.innerHTML =
+    history.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">SCAN ${index + 1}</div>
+
+        <p><strong>File:</strong> ${item.file}</p>
+
+        <p><strong>Business Lane:</strong> ${item.lane}</p>
+
+        <p><strong>Time:</strong> ${item.time}</p>
+
+        <p><strong>Status:</strong> ${item.status}</p>
+
+      </div>
+
+    `).join("");
+
+}
+
+function clearScanHistory() {
+
+  localStorage.removeItem("dojj_scan_history");
+
+  document.getElementById("scanHistory").innerHTML =
+    "<p>Scan history cleared.</p>";
+
+}
+
+</script>
+
