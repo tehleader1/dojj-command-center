@@ -862,3 +862,151 @@ function runProjectionUpdate() {
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">APPROVAL QUEUE</div>
+
+  <h3>Dojj Opportunity Routing</h3>
+
+  <div id="approvalQueue"></div>
+
+</div>
+
+<script>
+
+const dojjRoutes = [
+
+  {
+
+    type:
+      "Commercial Landscaping Opportunity",
+
+    route:
+      "ThePlantManInc.com",
+
+    confidence:
+      "88%",
+
+    backlink:
+      "https://theplantmaninc.com",
+
+    recommendation:
+      "High patio and office greenery potential."
+
+  },
+
+  {
+
+    type:
+      "AI Creator Workspace",
+
+    route:
+      "DigitalHut.app",
+
+    confidence:
+      "91%",
+
+    backlink:
+      "https://digitalhut.app",
+
+    recommendation:
+      "Strong creator and AI simulator alignment."
+
+  },
+
+  {
+
+    type:
+      "Enterprise Office Environment",
+
+    route:
+      "SupportRD.com",
+
+    confidence:
+      "79%",
+
+    backlink:
+      "https://supportrd.com",
+
+    recommendation:
+      "Commercial infrastructure opportunity detected."
+
+  }
+
+];
+
+function renderApprovalQueue() {
+
+  const container =
+    document.getElementById(
+      "approvalQueue"
+    );
+
+  container.innerHTML =
+    dojjRoutes.map((item, index) => `
+
+      <div class="card">
+
+        <div class="tag">
+          ROUTE ${index + 1}
+        </div>
+
+        <p>
+          <strong>Opportunity:</strong>
+          ${item.type}
+        </p>
+
+        <p>
+          <strong>Suggested Route:</strong>
+          ${item.route}
+        </p>
+
+        <p>
+          <strong>Confidence:</strong>
+          ${item.confidence}
+        </p>
+
+        <p>
+          <strong>Recommendation:</strong>
+          ${item.recommendation}
+        </p>
+
+        <a
+          href="${item.backlink}"
+          target="_blank"
+          class="button"
+        >
+          Open Route
+        </a>
+
+        <button
+          onclick="approveRoute(${index})"
+          class="button"
+          style="
+            margin-top:10px;
+            background:#22c55e;
+          "
+        >
+          Approve Route
+        </button>
+
+      </div>
+
+    `).join("");
+
+}
+
+function approveRoute(index) {
+
+  alert(
+    "Route approved for: "
+    + dojjRoutes[index].route
+  );
+
+}
+
+renderApprovalQueue();
+
+</script>
+
