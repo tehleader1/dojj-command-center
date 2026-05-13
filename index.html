@@ -486,3 +486,141 @@ function runScanner() {
 
 </script>
 
+
+<div class="card" style="margin-top:20px;">
+
+  <div class="tag">BUSINESS LANE</div>
+
+  <h3>Select Scanner Context</h3>
+
+  <select
+    id="businessLane"
+    style="
+      width:100%;
+      padding:14px;
+      border-radius:12px;
+      background:#111827;
+      color:white;
+      margin-top:12px;
+    "
+  >
+
+    <option value="plant">
+      PlantEscapes
+    </option>
+
+    <option value="digitalhut">
+      DigitalHut
+    </option>
+
+    <option value="supportrd">
+      SupportRD
+    </option>
+
+    <option value="lasers">
+      LasersMarket
+    </option>
+
+  </select>
+
+</div>
+
+<script>
+
+function runScanner() {
+
+  const file =
+    document.getElementById("scannerUpload").files[0];
+
+  const lane =
+    document.getElementById("businessLane").value;
+
+  const result =
+    document.getElementById("scanResult");
+
+  if (!file) {
+
+    result.innerHTML =
+      "<p style='color:#f87171;'>Upload a file first.</p>";
+
+    return;
+
+  }
+
+  let analysis = "";
+
+  if (lane === "plant") {
+
+    analysis = `
+      <p><strong>Landscape Potential:</strong> High</p>
+      <p><strong>Install Complexity:</strong> Medium</p>
+      <p><strong>Commercial Property Score:</strong> 84%</p>
+      <p><strong>Plant Visibility:</strong> Strong</p>
+    `;
+
+  }
+
+  if (lane === "digitalhut") {
+
+    analysis = `
+      <p><strong>Creator Studio Quality:</strong> 88%</p>
+      <p><strong>AI Workspace Readiness:</strong> High</p>
+      <p><strong>Promotion Potential:</strong> 91%</p>
+      <p><strong>Simulator Integration Score:</strong> Medium</p>
+    `;
+
+  }
+
+  if (lane === "supportrd") {
+
+    analysis = `
+      <p><strong>Enterprise Readiness:</strong> 79%</p>
+      <p><strong>Office Professionalism:</strong> High</p>
+      <p><strong>Infrastructure Quality:</strong> 74%</p>
+      <p><strong>Commercial Scaling Potential:</strong> Medium</p>
+    `;
+
+  }
+
+  if (lane === "lasers") {
+
+    analysis = `
+      <p><strong>Equipment Quality:</strong> 81%</p>
+      <p><strong>Commodity Movement Potential:</strong> Medium</p>
+      <p><strong>Warehouse Efficiency:</strong> 72%</p>
+      <p><strong>Sales Conversion Potential:</strong> High</p>
+    `;
+
+  }
+
+  result.innerHTML = `
+
+    <div class="card">
+
+      <div class="tag">
+        DOJJ ANALYSIS COMPLETE
+      </div>
+
+      <p><strong>File:</strong> ${file.name}</p>
+
+      <p><strong>Business Lane:</strong> ${lane}</p>
+
+      ${analysis}
+
+      <p>
+
+        <strong>Dojj Recommendation:</strong>
+
+        Human review recommended before
+        operational action.
+
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+</script>
+
